@@ -1,0 +1,73 @@
+@layer dl.components {
+  .dl-field {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    color: var(--dl-color-ink);
+    font-family: var(--dl-font-sans);
+    font-size: var(--dl-text-md);
+    line-height: var(--dl-leading-base);
+  }
+
+  .dl-field__label {
+    display: inline-flex;
+    align-items: baseline;
+    gap: var(--dl-space-2);
+    margin-block-end: var(--dl-space-2);
+    color: var(--dl-color-ink);
+    font-size: var(--dl-text-sm);
+    font-weight: var(--dl-weight-medium);
+    line-height: var(--dl-leading-tight);
+    cursor: default;
+  }
+
+  .dl-field[data-disabled="true"] .dl-field__label {
+    color: var(--dl-color-ink-muted);
+    cursor: not-allowed;
+  }
+
+  .dl-field__required {
+    color: var(--dl-color-danger);
+    line-height: 1;
+  }
+
+  .dl-field__hint {
+    margin: var(--dl-space-2) 0 0;
+    color: var(--dl-color-ink-muted);
+    font-size: var(--dl-text-sm);
+  }
+
+  /* The only layout-affecting transition in the library: one-line disclosure of
+     a validation message. The clip wrapper keeps the row at 0fr when empty. */
+  /* dl-motion-allow: single-line disclosure */
+  .dl-field__error-row {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows var(--dl-dur-2) var(--dl-ease-out);
+  }
+
+  .dl-field__error-row[data-expanded="true"] {
+    grid-template-rows: 1fr;
+  }
+
+  .dl-field__error-clip {
+    overflow: hidden;
+    min-height: 0;
+  }
+
+  .dl-field__error {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--dl-space-2);
+    margin: 0;
+    padding-block-start: var(--dl-space-2);
+    color: var(--dl-color-danger);
+    font-size: var(--dl-text-sm);
+    line-height: var(--dl-leading-base);
+  }
+
+  .dl-field__error-icon {
+    flex: 0 0 auto;
+    margin-block-start: 0.15em;
+  }
+}

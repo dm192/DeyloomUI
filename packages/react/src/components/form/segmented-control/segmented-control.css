@@ -1,0 +1,91 @@
+@layer dl.components {
+  .dl-segmented-control {
+    position: relative;
+    display: inline-flex;
+    align-items: stretch;
+    gap: var(--dl-space-1);
+    padding: var(--dl-space-1);
+    border: 1px solid var(--dl-color-border);
+    border-radius: var(--dl-radius-sm);
+    background: var(--dl-color-surface-sunken);
+    font-family: var(--dl-font-sans);
+    color: var(--dl-color-ink);
+    user-select: none;
+  }
+
+  .dl-segmented-control[data-disabled="true"] {
+    opacity: 0.56;
+  }
+
+  .dl-segmented-control__indicator {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    border-radius: var(--dl-radius-xs);
+    background: var(--dl-color-surface-raised);
+    box-shadow: var(--dl-shadow-1), var(--dl-edge);
+    pointer-events: none;
+  }
+
+  .dl-segmented-control__segment {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--dl-space-2);
+    height: var(--dl-control-h-md);
+    padding-inline: var(--dl-space-5);
+    border: 0;
+    border-radius: var(--dl-radius-xs);
+    background: transparent;
+    color: var(--dl-color-ink-muted);
+    font-family: var(--dl-font-sans);
+    font-size: var(--dl-text-md);
+    font-weight: var(--dl-weight-medium);
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition:
+      color var(--dl-dur-2) var(--dl-ease-out),
+      opacity var(--dl-dur-2) var(--dl-ease-out);
+  }
+
+  .dl-segmented-control__segment:hover:not(:disabled) {
+    color: var(--dl-color-ink);
+  }
+
+  .dl-segmented-control__segment[aria-checked="true"] {
+    color: var(--dl-color-ink);
+  }
+
+  .dl-segmented-control__segment:disabled {
+    cursor: not-allowed;
+    opacity: 0.48;
+  }
+
+  .dl-segmented-control__icon {
+    display: inline-flex;
+    flex: 0 0 auto;
+  }
+
+  .dl-segmented-control__label {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .dl-segmented-control[data-size="sm"] .dl-segmented-control__segment {
+    height: var(--dl-control-h-sm);
+    padding-inline: var(--dl-space-4);
+    font-size: var(--dl-text-sm);
+  }
+
+  .dl-segmented-control[data-size="sm"] {
+    border-radius: var(--dl-radius-xs);
+  }
+
+  .dl-segmented-control[data-size="sm"] .dl-segmented-control__indicator {
+    border-radius: var(--dl-radius-xs);
+  }
+}

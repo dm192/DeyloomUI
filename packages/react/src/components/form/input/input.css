@@ -1,0 +1,87 @@
+@layer dl.components {
+  .dl-input {
+    display: flex;
+    align-items: center;
+    gap: var(--dl-space-3);
+    inline-size: 100%;
+    min-width: 0;
+    height: var(--dl-control-h-md);
+    padding-inline: var(--dl-space-5);
+    border: 1px solid var(--dl-color-border);
+    border-radius: var(--dl-radius-sm);
+    background: var(--dl-color-surface-raised);
+    box-shadow: var(--dl-shadow-1), var(--dl-edge);
+    color: var(--dl-color-ink);
+    font-family: var(--dl-font-sans);
+    font-size: var(--dl-text-md);
+    line-height: var(--dl-leading-tight);
+    transition:
+      border-color var(--dl-dur-2) var(--dl-ease-out),
+      box-shadow var(--dl-dur-2) var(--dl-ease-out),
+      background-color var(--dl-dur-2) var(--dl-ease-out);
+  }
+
+  .dl-input:focus-within {
+    border-color: var(--dl-color-accent);
+    box-shadow: 0 0 0 3px var(--dl-color-ring);
+  }
+
+  .dl-input[data-invalid="true"] {
+    border-color: var(--dl-color-danger);
+  }
+
+  .dl-input[data-invalid="true"]:focus-within {
+    box-shadow: 0 0 0 3px color-mix(in oklch, var(--dl-color-danger) 30%, transparent);
+  }
+
+  .dl-input[data-disabled="true"] {
+    background: var(--dl-color-surface-sunken);
+    box-shadow: none;
+  }
+
+  .dl-input__control {
+    flex: 1 1 auto;
+    min-width: 0;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    letter-spacing: inherit;
+    outline: none;
+    appearance: none;
+  }
+
+  .dl-input__control::placeholder {
+    color: var(--dl-color-ink-subtle);
+    opacity: 1;
+  }
+
+  .dl-input__control:disabled {
+    cursor: not-allowed;
+    color: var(--dl-color-ink-muted);
+  }
+
+  .dl-input__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    color: var(--dl-color-ink-subtle);
+  }
+
+  .dl-input[data-size="sm"] {
+    height: var(--dl-control-h-sm);
+    padding-inline: var(--dl-space-4);
+    border-radius: var(--dl-radius-xs);
+    font-size: var(--dl-text-sm);
+  }
+
+  .dl-input[data-size="lg"] {
+    height: var(--dl-control-h-lg);
+    padding-inline: var(--dl-space-6);
+    border-radius: var(--dl-radius-md);
+    font-size: var(--dl-text-lg);
+  }
+}

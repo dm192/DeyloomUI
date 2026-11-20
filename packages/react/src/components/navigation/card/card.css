@@ -1,0 +1,91 @@
+@layer dl.components {
+  .dl-card {
+    --_shadow: var(--dl-shadow-1);
+
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    border: 1px solid var(--dl-color-border);
+    border-radius: var(--dl-radius-lg);
+    background: var(--dl-color-surface);
+    box-shadow: var(--_shadow), var(--dl-edge);
+    color: var(--dl-color-ink);
+    font-family: var(--dl-font-sans);
+    transition:
+      transform var(--dl-dur-2) var(--dl-ease-out),
+      box-shadow var(--dl-dur-3) var(--dl-ease-out),
+      border-color var(--dl-dur-2) var(--dl-ease-out);
+  }
+
+  .dl-card[data-elevation="2"] {
+    --_shadow: var(--dl-shadow-2);
+  }
+
+  .dl-card[data-elevation="3"] {
+    --_shadow: var(--dl-shadow-3);
+  }
+
+  .dl-card[data-interactive="true"]:hover:not(:disabled) {
+    border-color: var(--dl-color-border-strong);
+    transform: translateY(calc(var(--dl-space-1) * -1));
+  }
+
+  .dl-card[data-interactive="true"][data-elevation="1"]:hover:not(:disabled) {
+    --_shadow: var(--dl-shadow-2);
+  }
+
+  .dl-card[data-interactive="true"][data-elevation="2"]:hover:not(:disabled) {
+    --_shadow: var(--dl-shadow-3);
+  }
+
+  .dl-card[data-interactive="true"] {
+    cursor: pointer;
+  }
+
+  .dl-card__header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--dl-space-2);
+    padding: var(--dl-space-6);
+    padding-block-end: var(--dl-space-3);
+  }
+
+  .dl-card__title {
+    margin: 0;
+    color: var(--dl-color-ink);
+    font-size: var(--dl-text-lg);
+    font-weight: var(--dl-weight-semibold);
+    line-height: var(--dl-leading-tight);
+    letter-spacing: -0.01em;
+  }
+
+  .dl-card__description {
+    margin: 0;
+    color: var(--dl-color-ink-muted);
+    font-size: var(--dl-text-sm);
+    line-height: var(--dl-leading-base);
+  }
+
+  .dl-card__content {
+    flex: 1 1 auto;
+    padding: var(--dl-space-6);
+    padding-block: var(--dl-space-3);
+    color: var(--dl-color-ink);
+    font-size: var(--dl-text-md);
+    line-height: var(--dl-leading-base);
+  }
+
+  .dl-card__footer {
+    display: flex;
+    align-items: center;
+    gap: var(--dl-space-3);
+    padding: var(--dl-space-6);
+    padding-block-start: var(--dl-space-3);
+  }
+
+  .dl-card__footer:not(:last-child),
+  .dl-card__content:not(:last-child) {
+    padding-block-end: var(--dl-space-6);
+  }
+}

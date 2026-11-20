@@ -1,0 +1,118 @@
+@layer dl.components {
+  .dl-progress {
+    display: flex;
+    flex-direction: column;
+    gap: var(--dl-space-3);
+    width: 100%;
+    font-family: var(--dl-font-sans);
+  }
+
+  .dl-progress__meta {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--dl-space-4);
+  }
+
+  .dl-progress__label {
+    color: var(--dl-color-ink);
+    font-size: var(--dl-text-sm);
+    font-weight: var(--dl-weight-medium);
+    line-height: var(--dl-leading-tight);
+  }
+
+  .dl-progress__value {
+    color: var(--dl-color-ink-subtle);
+    font-size: var(--dl-text-sm);
+    font-variant-numeric: tabular-nums;
+    line-height: var(--dl-leading-tight);
+  }
+
+  /* ---- track -------------------------------------------------------------- */
+  .dl-progress__track {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: var(--dl-space-3);
+    overflow: hidden;
+    background: var(--dl-color-surface-sunken);
+    border-radius: var(--dl-radius-full);
+  }
+
+  .dl-progress[data-size="sm"] .dl-progress__track {
+    height: var(--dl-space-2);
+  }
+
+  .dl-progress[data-size="lg"] .dl-progress__track {
+    height: var(--dl-space-4);
+  }
+
+  /* ---- determinate fill --------------------------------------------------- */
+  /* Motion animates scaleX only: the track never reflows while a value moves. */
+  .dl-progress__fill {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: var(--dl-color-accent);
+    border-radius: inherit;
+    transform-origin: left center;
+  }
+
+  .dl-progress[data-tone="success"] .dl-progress__fill,
+  .dl-progress[data-tone="success"] .dl-progress__indeterminate {
+    background: var(--dl-color-success);
+  }
+
+  .dl-progress[data-tone="danger"] .dl-progress__fill,
+  .dl-progress[data-tone="danger"] .dl-progress__indeterminate {
+    background: var(--dl-color-danger);
+  }
+
+  .dl-progress[data-tone="neutral"] .dl-progress__fill,
+  .dl-progress[data-tone="neutral"] .dl-progress__indeterminate {
+    background: var(--dl-color-ink-subtle);
+  }
+
+  /* ---- indeterminate sweep ------------------------------------------------ */
+  /* `dl-anim-loop` switches the animation off under reduced motion; the base
+     transform and the static stripes below keep a readable busy state. */
+  .dl-progress__indeterminate {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 0;
+    width: 40%;
+    background: var(--dl-color-accent);
+    border-radius: inherit;
+    transform: translateX(20%);
+    animation: dl-progress-sweep calc(var(--dl-dur-5) * 2.5) var(--dl-ease-in-out) infinite;
+  }
+
+  @keyframes dl-progress-sweep {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(250%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dl-progress__indeterminate {
+      animation: none;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--dl-color-accent) 0 var(--dl-space-3),
+        var(--dl-color-accent-soft) var(--dl-space-3) var(--dl-space-4)
+      );
+    }
+  }
+
+  [data-dl-motion="reduced"] .dl-progress__indeterminate {
+    animation: none;
+    background: repeating-linear-gradient(
+      90deg,
+      var(--dl-color-accent) 0 var(--dl-space-3),
+      var(--dl-color-accent-soft) var(--dl-space-3) var(--dl-space-4)
+    );
+  }
+}

@@ -1,0 +1,101 @@
+@layer dl.components {
+  .dl-tabs {
+    display: flex;
+    flex-direction: column;
+    gap: var(--dl-space-5);
+    min-width: 0;
+    color: var(--dl-color-ink);
+    font-family: var(--dl-font-sans);
+  }
+
+  .dl-tabs[data-orientation="vertical"] {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: var(--dl-space-6);
+  }
+
+  .dl-tabs__list {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--dl-space-1);
+    align-self: flex-start;
+    max-width: 100%;
+    padding: var(--dl-space-1);
+    border: 1px solid var(--dl-color-border);
+    border-radius: var(--dl-radius-sm);
+    background: var(--dl-color-surface-sunken);
+    color: var(--dl-color-ink-muted);
+  }
+
+  .dl-tabs__list[data-orientation="vertical"] {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  /* dl-motion-allow: measured tab indicator (the only width animation) */
+  .dl-tabs__indicator {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    z-index: 0;
+    border-radius: var(--dl-radius-xs);
+    background: var(--dl-color-surface-raised);
+    box-shadow: var(--dl-shadow-1), var(--dl-edge);
+    pointer-events: none;
+  }
+
+  .dl-tabs__trigger {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    gap: var(--dl-space-2);
+    height: var(--dl-control-h-sm);
+    padding-inline: var(--dl-space-5);
+    border: 0;
+    border-radius: var(--dl-radius-xs);
+    background: transparent;
+    color: var(--dl-color-ink-muted);
+    font-family: inherit;
+    font-size: var(--dl-text-sm);
+    font-weight: var(--dl-weight-medium);
+    line-height: 1;
+    letter-spacing: -0.006em;
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: color var(--dl-dur-2) var(--dl-ease-out);
+  }
+
+  .dl-tabs__trigger:hover:not(:disabled) {
+    color: var(--dl-color-ink);
+  }
+
+  .dl-tabs__trigger[data-state="active"] {
+    color: var(--dl-color-ink);
+  }
+
+  .dl-tabs__trigger:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  .dl-tabs__list[data-orientation="vertical"] .dl-tabs__trigger {
+    justify-content: flex-start;
+  }
+
+  .dl-tabs__content {
+    min-width: 0;
+    color: var(--dl-color-ink);
+    font-size: var(--dl-text-md);
+    line-height: var(--dl-leading-base);
+  }
+
+  .dl-tabs[data-orientation="vertical"] .dl-tabs__content {
+    flex: 1 1 auto;
+  }
+}

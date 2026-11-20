@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+<title id="title">Deyloom</title><desc id="desc">A warm orange flowing ribbon in the shape of D, paired with the Deyloom wordmark.</desc>
+<defs>
+  <linearGradient id="orangeBase" x1="0" y1="0" x2="0.93" y2="0.9" objectBoundingBox="true">
+    <stop offset="0" stop-color="#FFD39B"/>
+    <stop offset="0.38" stop-color="#FF9A50"/>
+    <stop offset="1" stop-color="#FF6C2F"/>
+  </linearGradient>
+  <linearGradient id="orangeFront" x1="0" y1="0.64" x2="1" y2="0.36" objectBoundingBox="true">
+    <stop offset="0" stop-color="#FFD5A0"/>
+    <stop offset="0.21" stop-color="#FFAD64"/>
+    <stop offset="0.67" stop-color="#FF8B43"/>
+    <stop offset="1" stop-color="#FF9B50"/>
+  </linearGradient>
+  <linearGradient id="orangeUnder" x1="0.1" y1="0.15" x2="0.8" y2="1" objectBoundingBox="true">
+    <stop offset="0" stop-color="#EF672F"/>
+    <stop offset="0.62" stop-color="#E55D20"/>
+    <stop offset="1" stop-color="#FF7B31"/>
+  </linearGradient>
+  <linearGradient id="leftFold" x1="0" y1="0" x2="0.8" y2="1" objectBoundingBox="true">
+    <stop offset="0" stop-color="#D64D20"/>
+    <stop offset="0.55" stop-color="#F06A2D"/>
+    <stop offset="1" stop-color="#FF9751"/>
+  </linearGradient>
+  <clipPath id="glyphCut" clipPathUnits="userSpaceOnUse">
+    <path clip-rule="evenodd" d="M44 6H126C199 6 250 57 250 128S199 250 126 250H44C23 250 6 233 6 212V44C6 23 23 6 44 6Z M68 170C121 153 175 134 203 114C187 90 160 73 124 73H68Z"/>
+  </clipPath>
+</defs>
+
+<g id="symbol">
+  <g clip-path="url(#glyphCut)">
+    <!-- Warm foundation gives the folded monogram its outer D silhouette. -->
+    <path fill="url(#orangeBase)" d="M44 6H126C199 6 250 57 250 128S199 250 126 250H44C23 250 6 233 6 212V44C6 23 23 6 44 6Z"/>
+    <!-- Lower back of the ribbon falls into a deeper orange shadow. -->
+    <path fill="url(#orangeUnder)" d="M250 101C256 145 244 187 218 217C196 242 164 250 126 250H49C75 232 108 218 151 206C218 185 249 154 250 101Z"/>
+    <!-- Curved inner left fold; its darker edge reads as a ribbon crossing behind. -->
+    <path fill="url(#leftFold)" d="M6 117C9 90 30 73 68 73H126C160 73 189 91 204 115C168 145 116 154 68 172C35 184 17 206 6 226Z"/>
+    <!-- Light crest across the top, preserving the rounded monogram. -->
+    <path opacity="0.15" fill="url(#orangeBase)" d="M44 6H126C181 6 231 42 246 97C239 80 229 69 208 59C191 49 167 43 132 43H46C22 43 6 58 6 82V44C6 23 23 6 44 6Z"/>
+    <!-- Foreground sweep: the visual metaphor for one motion language. -->
+    <path fill="url(#orangeFront)" d="M6 208C6 181 23 163 57 148C95 129 125 125 166 106C199 91 222 72 219 55C240 79 250 108 250 129C250 164 230 184 176 201C122 218 83 230 57 250H44C23 250 6 233 6 212Z"/>
+  </g>
+</g>
+</svg>

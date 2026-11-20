@@ -1,0 +1,119 @@
+@layer dl.components {
+  .dl-slider {
+    --_track-size: var(--dl-space-3);
+    --_thumb-size: 18px;
+
+    display: flex;
+    align-items: center;
+    gap: var(--dl-space-4);
+    inline-size: 100%;
+    min-width: 0;
+    font-family: var(--dl-font-sans);
+    color: var(--dl-color-ink);
+  }
+
+  .dl-slider[data-size="sm"] {
+    --_track-size: var(--dl-space-2);
+    --_thumb-size: 14px;
+  }
+
+  .dl-slider__root {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex: 1 1 auto;
+    min-width: 0;
+    block-size: var(--dl-space-7);
+    touch-action: none;
+    user-select: none;
+    /* Radix positions the thumb with this inline transform; adding the vertical
+       half keeps the dot centred without a second inline style. */
+    --radix-slider-thumb-transform: translate(-50%, -50%);
+  }
+
+  .dl-slider__track {
+    position: relative;
+    display: block;
+    flex: 1 1 0%;
+    block-size: var(--_track-size);
+    border-radius: var(--dl-radius-full);
+    background: var(--dl-color-surface-sunken);
+  }
+
+  .dl-slider__fill {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-end: 0;
+    border-radius: var(--dl-radius-full);
+    background: var(--dl-color-accent);
+    transform-origin: left center;
+    pointer-events: none;
+  }
+
+  .dl-slider[data-invalid="true"] .dl-slider__fill {
+    background: var(--dl-color-danger);
+  }
+
+  .dl-slider__thumb {
+    position: absolute;
+    top: 50%;
+    display: block;
+    inline-size: var(--_thumb-size);
+    block-size: var(--_thumb-size);
+    outline-offset: 3px;
+    cursor: grab;
+  }
+
+  .dl-slider__thumb:active {
+    cursor: grabbing;
+  }
+
+  .dl-slider__thumb-dot {
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+    border: 1px solid var(--dl-color-border-strong);
+    border-radius: var(--dl-radius-full);
+    background: var(--dl-color-surface-raised);
+    box-shadow: var(--dl-shadow-2), var(--dl-edge);
+    transition:
+      transform var(--dl-dur-2) var(--dl-ease-spring),
+      border-color var(--dl-dur-2) var(--dl-ease-out);
+  }
+
+  .dl-slider__thumb:hover .dl-slider__thumb-dot {
+    transform: scale(1.06);
+  }
+
+  .dl-slider[data-dragging="true"] .dl-slider__thumb-dot,
+  .dl-slider__thumb:focus-visible .dl-slider__thumb-dot {
+    border-color: var(--dl-color-accent);
+    transform: scale(1.12);
+  }
+
+  .dl-slider[data-invalid="true"] .dl-slider__thumb-dot {
+    border-color: var(--dl-color-danger);
+  }
+
+  .dl-slider[data-disabled="true"] {
+    opacity: 0.5;
+  }
+
+  .dl-slider[data-disabled="true"] .dl-slider__thumb {
+    cursor: not-allowed;
+  }
+
+  .dl-slider[data-disabled="true"] .dl-slider__thumb-dot {
+    transform: none;
+  }
+
+  .dl-slider__value {
+    flex: 0 0 auto;
+    min-inline-size: 3em;
+    color: var(--dl-color-ink-muted);
+    font-size: var(--dl-text-sm);
+    font-variant-numeric: tabular-nums;
+    line-height: var(--dl-leading-tight);
+    text-align: end;
+  }
+}

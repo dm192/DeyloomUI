@@ -1,0 +1,29 @@
+@layer dl.components {
+  .dl-tooltip {
+    --_bg: var(--dl-color-ink);
+    --_fg: var(--dl-color-bg);
+
+    z-index: 70;
+    max-width: calc(var(--dl-space-10) * 7);
+    padding-block: var(--dl-space-2);
+    padding-inline: var(--dl-space-4);
+    border-radius: var(--dl-radius-sm);
+    background: var(--_bg);
+    color: var(--_fg);
+    font-family: var(--dl-font-sans);
+    font-size: var(--dl-text-xs);
+    font-weight: var(--dl-weight-medium);
+    line-height: var(--dl-leading-base);
+    box-shadow: var(--dl-shadow-2);
+    transform-origin: var(--radix-tooltip-content-transform-origin);
+    pointer-events: none;
+  }
+
+  .dl-tooltip__arrow {
+    fill: var(--_bg);
+  }
+
+  .dl-tooltip__trigger {
+    cursor: help;
+  }
+}

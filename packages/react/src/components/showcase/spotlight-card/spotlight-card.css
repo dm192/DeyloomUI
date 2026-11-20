@@ -1,0 +1,44 @@
+@layer dl.components {
+  .dl-spotlight-card {
+    --dl-spotlight-radius: 320px;
+    --dl-mx: 50%;
+    --dl-my: 50%;
+
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding: var(--dl-space-6);
+  }
+
+  /* The light lives on a pseudo-element so the card's own background, border and
+     shadow never repaint: only this layer's opacity transitions. */
+  .dl-spotlight-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: radial-gradient(
+      circle var(--dl-spotlight-radius) at var(--dl-mx) var(--dl-my),
+      color-mix(in oklch, var(--dl-color-accent) 24%, transparent),
+      transparent 72%
+    );
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--dl-dur-3) var(--dl-ease-out);
+  }
+
+  .dl-spotlight-card[data-spotlight="on"]::before {
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dl-spotlight-card::before {
+      transition: none;
+    }
+  }
+
+  [data-dl-motion="reduced"] .dl-spotlight-card::before {
+    transition: none;
+  }
+}

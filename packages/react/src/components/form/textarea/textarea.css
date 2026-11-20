@@ -1,0 +1,64 @@
+@layer dl.components {
+  .dl-textarea {
+    display: block;
+    inline-size: 100%;
+    min-width: 0;
+    min-height: var(--dl-control-h-lg);
+    padding: var(--dl-space-3) var(--dl-space-5);
+    border: 1px solid var(--dl-color-border);
+    border-radius: var(--dl-radius-sm);
+    background: var(--dl-color-surface-raised);
+    box-shadow: var(--dl-shadow-1), var(--dl-edge);
+    color: var(--dl-color-ink);
+    font-family: var(--dl-font-sans);
+    font-size: var(--dl-text-md);
+    line-height: var(--dl-leading-base);
+    resize: vertical;
+    transition:
+      border-color var(--dl-dur-2) var(--dl-ease-out),
+      box-shadow var(--dl-dur-2) var(--dl-ease-out),
+      background-color var(--dl-dur-2) var(--dl-ease-out);
+  }
+
+  .dl-textarea:focus {
+    border-color: var(--dl-color-accent);
+    box-shadow: 0 0 0 3px var(--dl-color-ring);
+    outline: none;
+  }
+
+  .dl-textarea[data-invalid="true"] {
+    border-color: var(--dl-color-danger);
+  }
+
+  .dl-textarea[data-invalid="true"]:focus {
+    box-shadow: 0 0 0 3px color-mix(in oklch, var(--dl-color-danger) 30%, transparent);
+  }
+
+  .dl-textarea[data-disabled="true"] {
+    background: var(--dl-color-surface-sunken);
+    box-shadow: none;
+    cursor: not-allowed;
+  }
+
+  .dl-textarea[data-autoresize="true"] {
+    overflow-y: auto;
+    resize: none;
+  }
+
+  .dl-textarea::placeholder {
+    color: var(--dl-color-ink-subtle);
+    opacity: 1;
+  }
+
+  .dl-textarea[data-size="sm"] {
+    padding: var(--dl-space-2) var(--dl-space-4);
+    border-radius: var(--dl-radius-xs);
+    font-size: var(--dl-text-sm);
+  }
+
+  .dl-textarea[data-size="lg"] {
+    padding: var(--dl-space-4) var(--dl-space-6);
+    border-radius: var(--dl-radius-md);
+    font-size: var(--dl-text-lg);
+  }
+}

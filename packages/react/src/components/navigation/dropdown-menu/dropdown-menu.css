@@ -1,0 +1,88 @@
+@layer dl.components {
+  .dl-dropdown-menu {
+    z-index: 70;
+    min-width: calc(var(--dl-space-10) * 5);
+    padding: var(--dl-space-2);
+    border: 1px solid var(--dl-color-border);
+    border-radius: var(--dl-radius-md);
+    background: var(--dl-color-surface-raised);
+    color: var(--dl-color-ink);
+    box-shadow: var(--dl-shadow-3), var(--dl-edge);
+    font-family: var(--dl-font-sans);
+    font-size: var(--dl-text-sm);
+    line-height: var(--dl-leading-base);
+    transform-origin: var(--radix-dropdown-menu-content-transform-origin);
+  }
+
+  .dl-dropdown-menu__item {
+    display: flex;
+    align-items: center;
+    gap: var(--dl-space-3);
+    padding-block: var(--dl-space-3);
+    padding-inline: var(--dl-space-4);
+    border-radius: var(--dl-radius-xs);
+    color: var(--dl-color-ink);
+    font-size: var(--dl-text-sm);
+    line-height: var(--dl-leading-tight);
+    cursor: pointer;
+    user-select: none;
+    outline: none;
+    transition:
+      background-color var(--dl-dur-1) var(--dl-ease-out),
+      color var(--dl-dur-1) var(--dl-ease-out);
+  }
+
+  .dl-dropdown-menu__item[data-highlighted] {
+    background: var(--dl-color-surface-inset);
+    color: var(--dl-color-ink);
+  }
+
+  /* data-highlighted is the visible focus cue; the global ring would double it. */
+  .dl-dropdown-menu__item:focus-visible {
+    outline: none;
+  }
+
+  .dl-dropdown-menu__item[data-disabled] {
+    color: var(--dl-color-ink-subtle);
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+
+  .dl-dropdown-menu__item[data-inset=""] {
+    padding-inline-start: var(--dl-space-7);
+  }
+
+  .dl-dropdown-menu__indicator {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    width: var(--dl-space-4);
+    height: var(--dl-space-4);
+    color: var(--dl-color-accent-soft-ink);
+  }
+
+  .dl-dropdown-menu__separator {
+    height: 1px;
+    margin-block: var(--dl-space-2);
+    background: var(--dl-color-border);
+  }
+
+  .dl-dropdown-menu__label {
+    padding-block: var(--dl-space-2);
+    padding-inline: var(--dl-space-4);
+    color: var(--dl-color-ink-subtle);
+    font-size: var(--dl-text-xs);
+    font-weight: var(--dl-weight-semibold);
+    line-height: var(--dl-leading-tight);
+    letter-spacing: 0.02em;
+  }
+
+  .dl-dropdown-menu__shortcut {
+    margin-inline-start: auto;
+    color: var(--dl-color-ink-subtle);
+    font-family: var(--dl-font-mono);
+    font-size: var(--dl-text-xs);
+    letter-spacing: 0.02em;
+  }
+}

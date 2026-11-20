@@ -1,0 +1,144 @@
+@layer dl.components {
+  .dl-avatar {
+    --_size: var(--dl-control-h-md);
+    --_font: var(--dl-text-sm);
+
+    position: relative;
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    width: var(--_size);
+    height: var(--_size);
+    overflow: hidden;
+    border: 1px solid var(--dl-color-border);
+    border-radius: var(--dl-radius-full);
+    background: var(--dl-color-surface-sunken);
+    color: var(--dl-color-ink-muted);
+    font-family: var(--dl-font-sans);
+    font-size: var(--_font);
+    font-weight: var(--dl-weight-medium);
+    line-height: 1;
+    vertical-align: middle;
+    user-select: none;
+  }
+
+  .dl-avatar[data-size="xs"] {
+    --_size: var(--dl-control-h-xs);
+    --_font: var(--dl-text-xs);
+  }
+
+  .dl-avatar[data-size="sm"] {
+    --_size: var(--dl-control-h-sm);
+    --_font: var(--dl-text-xs);
+  }
+
+  .dl-avatar[data-size="md"] {
+    --_size: var(--dl-control-h-md);
+    --_font: var(--dl-text-sm);
+  }
+
+  .dl-avatar[data-size="lg"] {
+    --_size: var(--dl-control-h-lg);
+    --_font: var(--dl-text-md);
+  }
+
+  /* Radix only mounts the img once the browser has loaded it, so the fade-in
+     is an entry animation rather than a transition from a hidden state. */
+  .dl-avatar__image {
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    object-fit: cover;
+    animation: dl-avatar-image-in var(--dl-dur-3) var(--dl-ease-out) both;
+  }
+
+  @keyframes dl-avatar-image-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  .dl-avatar__image[data-status="error"] {
+    display: none;
+  }
+
+  .dl-avatar__fallback {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    color: inherit;
+    letter-spacing: 0.02em;
+  }
+
+  /* ---- group -------------------------------------------------------------- */
+  .dl-avatar-group {
+    --_group-size: var(--dl-control-h-md);
+    --_group-font: var(--dl-text-sm);
+
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .dl-avatar-group[data-size="xs"] {
+    --_group-size: var(--dl-control-h-xs);
+    --_group-font: var(--dl-text-xs);
+  }
+
+  .dl-avatar-group[data-size="sm"] {
+    --_group-size: var(--dl-control-h-sm);
+    --_group-font: var(--dl-text-xs);
+  }
+
+  .dl-avatar-group[data-size="md"] {
+    --_group-size: var(--dl-control-h-md);
+    --_group-font: var(--dl-text-sm);
+  }
+
+  .dl-avatar-group[data-size="lg"] {
+    --_group-size: var(--dl-control-h-lg);
+    --_group-font: var(--dl-text-md);
+  }
+
+  .dl-avatar-group > .dl-avatar,
+  .dl-avatar-group__more {
+    width: var(--_group-size);
+    height: var(--_group-size);
+    font-size: var(--_group-font);
+    box-shadow: 0 0 0 var(--dl-space-1) var(--dl-color-surface);
+  }
+
+  .dl-avatar-group > * + * {
+    margin-inline-start: calc(var(--dl-space-5) * -1);
+  }
+
+  .dl-avatar-group .dl-avatar {
+    position: relative;
+    transition: transform var(--dl-dur-2) var(--dl-ease-out);
+  }
+
+  .dl-avatar-group .dl-avatar:hover:not(:disabled) {
+    z-index: 2;
+    transform: translateY(calc(var(--dl-space-1) * -1));
+  }
+
+  .dl-avatar-group__more {
+    position: relative;
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--dl-radius-full);
+    background: var(--dl-color-surface-sunken);
+    color: var(--dl-color-ink-muted);
+    font-family: var(--dl-font-sans);
+    font-weight: var(--dl-weight-medium);
+    line-height: 1;
+    user-select: none;
+  }
+}

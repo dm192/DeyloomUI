@@ -1,0 +1,207 @@
+@layer dl.components {
+  /* ---- viewport / stack --------------------------------------------------- */
+  .dl-toaster {
+    position: fixed;
+    z-index: 60;
+    display: flex;
+    flex-direction: column;
+    gap: var(--dl-space-4);
+    width: min(calc(100vw - var(--dl-space-9)), 420px);
+    margin: 0;
+    padding: var(--dl-space-6);
+    list-style: none;
+    /* The empty viewport must never swallow clicks; items re-enable it. */
+    pointer-events: none;
+  }
+
+  .dl-toaster > li {
+    pointer-events: auto;
+  }
+
+  .dl-toaster--top-right {
+    inset-block-start: 0;
+    inset-inline-end: 0;
+  }
+
+  .dl-toaster--top-left {
+    inset-block-start: 0;
+    inset-inline-start: 0;
+  }
+
+  .dl-toaster--top-center {
+    inset-block-start: 0;
+    inset-inline: 0;
+    margin-inline: auto;
+  }
+
+  .dl-toaster--bottom-right {
+    inset-block-end: 0;
+    inset-inline-end: 0;
+  }
+
+  .dl-toaster--bottom-left {
+    inset-block-end: 0;
+    inset-inline-start: 0;
+  }
+
+  .dl-toaster--bottom-center {
+    inset-block-end: 0;
+    inset-inline: 0;
+    margin-inline: auto;
+  }
+
+  /* ---- toast card --------------------------------------------------------- */
+  .dl-toast {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: var(--dl-space-4);
+    width: 100%;
+    padding: var(--dl-space-5) var(--dl-space-6);
+    overflow: hidden;
+    background: var(--dl-color-surface-raised);
+    border: 1px solid var(--dl-color-border);
+    border-radius: var(--dl-radius-md);
+    box-shadow: var(--dl-shadow-3), var(--dl-edge);
+    color: var(--dl-color-ink);
+    font-family: var(--dl-font-sans);
+    font-size: var(--dl-text-md);
+    line-height: var(--dl-leading-base);
+  }
+
+  .dl-toast__icon {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    width: var(--dl-space-6);
+    height: var(--dl-space-6);
+    margin-block-start: var(--dl-space-1);
+    color: var(--dl-color-accent-soft-ink);
+  }
+
+  .dl-toast[data-variant="success"] .dl-toast__icon {
+    color: var(--dl-color-success);
+  }
+
+  .dl-toast[data-variant="danger"] .dl-toast__icon {
+    color: var(--dl-color-danger);
+  }
+
+  .dl-toast__content {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    gap: var(--dl-space-1);
+    min-width: 0;
+  }
+
+  .dl-toast__title {
+    color: var(--dl-color-ink);
+    font-size: var(--dl-text-md);
+    font-weight: var(--dl-weight-medium);
+    line-height: var(--dl-leading-tight);
+  }
+
+  .dl-toast__description {
+    color: var(--dl-color-ink-muted);
+    font-size: var(--dl-text-sm);
+    line-height: var(--dl-leading-base);
+  }
+
+  /* ---- actions ------------------------------------------------------------ */
+  .dl-toast__action {
+    align-self: flex-start;
+    margin-block-start: var(--dl-space-2);
+    padding: 0;
+    background: none;
+    border: 0;
+    color: var(--dl-color-accent-soft-ink);
+    font-family: var(--dl-font-sans);
+    font-size: var(--dl-text-sm);
+    font-weight: var(--dl-weight-medium);
+    line-height: var(--dl-leading-tight);
+    text-underline-offset: 3px;
+    cursor: pointer;
+    transition: color var(--dl-dur-2) var(--dl-ease-out);
+  }
+
+  .dl-toast__action:not(:disabled):hover {
+    color: var(--dl-color-accent);
+    text-decoration: underline;
+  }
+
+  .dl-toast__close {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    width: var(--dl-control-h-xs);
+    height: var(--dl-control-h-xs);
+    margin-inline-start: var(--dl-space-2);
+    padding: 0;
+    background: none;
+    border: 0;
+    border-radius: var(--dl-radius-full);
+    color: var(--dl-color-ink-subtle);
+    cursor: pointer;
+    transition:
+      background-color var(--dl-dur-2) var(--dl-ease-out),
+      color var(--dl-dur-2) var(--dl-ease-out);
+  }
+
+  .dl-toast__close:not(:disabled):hover {
+    background: var(--dl-color-surface-inset);
+    color: var(--dl-color-ink);
+  }
+
+  /* ---- remaining-time bar ------------------------------------------------- */
+  /* Only a transform animation runs here. Radix pauses its close timer on
+     hover/focus/window blur and calls onPause/onResume, which we mirror with
+     animation-play-state so the bar and the timer stay in sync. */
+  .dl-toast__progress {
+    position: absolute;
+    inset-inline: 0;
+    inset-block-end: 0;
+    height: var(--dl-space-1);
+    background: var(--dl-color-accent);
+    transform: scaleX(1);
+    transform-origin: left center;
+    animation: dl-toast-progress var(--dl-toast-duration) linear forwards;
+  }
+
+  .dl-toast[data-variant="success"] .dl-toast__progress {
+    background: var(--dl-color-success);
+  }
+
+  .dl-toast[data-variant="danger"] .dl-toast__progress {
+    background: var(--dl-color-danger);
+  }
+
+  .dl-toast[data-paused="true"] .dl-toast__progress {
+    animation-play-state: paused;
+  }
+
+  @keyframes dl-toast-progress {
+    from {
+      transform: scaleX(1);
+    }
+    to {
+      transform: scaleX(0);
+    }
+  }
+
+  /* A flowing bar is movement without information: with reduced motion the
+     toast keeps its text and drops the countdown entirely. */
+  @media (prefers-reduced-motion: reduce) {
+    .dl-toast__progress {
+      animation: none;
+      transform: scaleX(0);
+    }
+  }
+
+  [data-dl-motion="reduced"] .dl-toast__progress {
+    animation: none;
+    transform: scaleX(0);
+  }
+}

@@ -1,0 +1,56 @@
+@layer dl.components {
+  .dl-number-flow {
+    display: inline-flex;
+    align-items: baseline;
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum" 1;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .dl-number-flow__visual {
+    display: inline-flex;
+    align-items: baseline;
+  }
+
+  .dl-number-flow__affix,
+  .dl-number-flow__static {
+    display: inline-block;
+    white-space: pre;
+  }
+
+  /* Fixed-width, fixed-height slot: the only moving part is the digit strip's
+     translateY, so layout never changes while the value rolls. */
+  .dl-number-flow__slot {
+    position: relative;
+    display: inline-block;
+    inline-size: 1ch;
+    block-size: 1.1em;
+    overflow: hidden;
+    vertical-align: bottom;
+  }
+
+  .dl-number-flow__strip {
+    display: flex;
+    flex-direction: column;
+    transition: transform var(--dl-dur-4) var(--dl-ease-spring);
+  }
+
+  .dl-number-flow__digit {
+    display: block;
+    block-size: 1.1em;
+    line-height: 1.1em;
+    text-align: center;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dl-number-flow__strip {
+      transition: none;
+    }
+  }
+
+  [data-dl-motion="reduced"] .dl-number-flow__strip,
+  .dl-number-flow[data-motion="static"] .dl-number-flow__strip {
+    transition: none;
+  }
+}

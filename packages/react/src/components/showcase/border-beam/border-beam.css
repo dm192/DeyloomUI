@@ -1,0 +1,77 @@
+@layer dl.components {
+  .dl-border-beam {
+    --dl-beam-color: var(--dl-color-accent);
+    --dl-beam-duration: 6s;
+    --dl-beam-size: 40;
+
+    position: relative;
+    display: block;
+    border-radius: var(--dl-radius-lg);
+    isolation: isolate;
+  }
+
+  .dl-border-beam__content {
+    position: relative;
+    z-index: 1;
+    border-radius: inherit;
+    background: var(--dl-color-surface);
+    padding: var(--dl-space-6);
+  }
+
+  /* The mask keeps exactly the 1px frame: two identical gradient layers, one
+     clipped to the content box, XOR-composited. Paint never covers the card. */
+  .dl-border-beam__ring {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    overflow: hidden;
+    padding: 1px;
+    border-radius: inherit;
+    pointer-events: none;
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    -webkit-mask-composite: xor;
+  }
+
+  /* One oversized square rotates; the ring mask clips its paint to the border.
+     The square is 2.5x the card so it covers the ring at every angle for cards
+     between roughly 1:2.3 and 4:1. */
+  .dl-border-beam__beam.dl-anim-loop {
+    /* dl-motion-allow: the conic gradient must move; the ring mask confines paint to the 1px border and this is the component's only transform layer. */
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 250%;
+    aspect-ratio: 1;
+    translate: -50% -50%;
+    will-change: transform;
+    background: conic-gradient(
+      from 0deg,
+      transparent 0deg,
+      transparent calc(360deg - var(--dl-beam-size) * 3.6deg),
+      var(--dl-beam-color) 360deg
+    );
+    animation: dl-beam var(--dl-beam-duration) linear infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dl-border-beam__ring {
+      display: none;
+    }
+
+    .dl-border-beam {
+      box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--dl-beam-color) 55%, transparent);
+    }
+  }
+
+  .dl-border-beam[data-motion="static"] .dl-border-beam__ring,
+  [data-dl-motion="reduced"] .dl-border-beam__ring {
+    display: none;
+  }
+
+  .dl-border-beam[data-motion="static"],
+  [data-dl-motion="reduced"] .dl-border-beam {
+    box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--dl-beam-color) 55%, transparent);
+  }
+}

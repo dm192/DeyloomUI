@@ -1,0 +1,91 @@
+@layer dl.components {
+  /* ---- backdrop ----------------------------------------------------------- */
+  .dl-drawer__backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    background: var(--dl-color-overlay);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+  }
+
+  /* ---- panel -------------------------------------------------------------- */
+  .dl-drawer__panel {
+    position: fixed;
+    z-index: 51;
+    display: flex;
+    flex-direction: column;
+    gap: var(--dl-space-5);
+    padding: var(--dl-space-8);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background: var(--dl-color-surface-raised);
+    border: 1px solid var(--dl-color-border);
+    box-shadow: var(--dl-shadow-3), var(--dl-edge);
+    color: var(--dl-color-ink);
+    font-family: var(--dl-font-sans);
+    font-size: var(--dl-text-md);
+    line-height: var(--dl-leading-base);
+  }
+
+  .dl-drawer__panel[data-side="right"] {
+    inset-block: 0;
+    inset-inline-end: 0;
+    width: min(calc(100vw - var(--dl-space-9)), 420px);
+    border-start-start-radius: var(--dl-radius-lg);
+    border-end-start-radius: var(--dl-radius-lg);
+  }
+
+  .dl-drawer__panel[data-side="left"] {
+    inset-block: 0;
+    inset-inline-start: 0;
+    width: min(calc(100vw - var(--dl-space-9)), 420px);
+    border-start-end-radius: var(--dl-radius-lg);
+    border-end-end-radius: var(--dl-radius-lg);
+  }
+
+  .dl-drawer__panel[data-side="bottom"] {
+    inset-inline: 0;
+    inset-block-end: 0;
+    max-height: min(80dvh, 640px);
+    border-start-start-radius: var(--dl-radius-lg);
+    border-start-end-radius: var(--dl-radius-lg);
+  }
+
+  /* ---- content ------------------------------------------------------------ */
+  .dl-drawer__title {
+    margin: 0;
+    padding-inline-end: var(--dl-space-10);
+    color: var(--dl-color-ink);
+    font-size: var(--dl-text-xl);
+    font-weight: var(--dl-weight-semibold);
+    line-height: var(--dl-leading-tight);
+    letter-spacing: -0.01em;
+  }
+
+  .dl-drawer__description {
+    margin: 0;
+    color: var(--dl-color-ink-muted);
+    font-size: var(--dl-text-sm);
+    line-height: var(--dl-leading-base);
+  }
+
+  .dl-drawer__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: var(--dl-space-4);
+    margin-block-start: auto;
+  }
+
+  .dl-drawer__close {
+    position: absolute;
+    inset-block-start: var(--dl-space-5);
+    inset-inline-end: var(--dl-space-5);
+    color: var(--dl-color-ink-subtle);
+  }
+
+  .dl-drawer__close:not(:disabled):hover {
+    color: var(--dl-color-ink);
+  }
+}

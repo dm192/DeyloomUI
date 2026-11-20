@@ -1,0 +1,119 @@
+@layer dl.components {
+  .dl-badge {
+    --_bg: transparent;
+    --_fg: var(--dl-color-ink-muted);
+    --_bd: transparent;
+
+    display: inline-flex;
+    align-items: center;
+    gap: var(--dl-space-2);
+    max-width: 100%;
+    padding-block: var(--dl-space-1);
+    padding-inline: var(--dl-space-3);
+    border: 1px solid var(--_bd);
+    border-radius: var(--dl-radius-full);
+    background: var(--_bg);
+    color: var(--_fg);
+    font-family: var(--dl-font-sans);
+    font-size: var(--dl-text-sm);
+    font-weight: var(--dl-weight-medium);
+    line-height: var(--dl-leading-tight);
+    letter-spacing: -0.006em;
+    white-space: nowrap;
+    vertical-align: middle;
+  }
+
+  .dl-badge__label {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .dl-badge__dot {
+    flex: 0 0 auto;
+    width: var(--dl-space-3);
+    height: var(--dl-space-3);
+    border-radius: var(--dl-radius-full);
+    background: currentColor;
+  }
+
+  .dl-badge[data-size="sm"] {
+    padding-block: 0;
+    padding-inline: var(--dl-space-2);
+    font-size: var(--dl-text-xs);
+  }
+
+  .dl-badge[data-size="md"] {
+    font-size: var(--dl-text-sm);
+  }
+
+  /* ---- tone: accent ------------------------------------------------------- */
+  .dl-badge[data-tone="accent"][data-variant="soft"] {
+    --_bg: var(--dl-color-accent-soft);
+    --_fg: var(--dl-color-accent-soft-ink);
+  }
+  .dl-badge[data-tone="accent"][data-variant="solid"] {
+    --_bg: var(--dl-color-accent);
+    --_fg: var(--dl-color-accent-ink);
+  }
+  .dl-badge[data-tone="accent"][data-variant="outline"] {
+    --_bd: color-mix(in oklch, var(--dl-color-accent) 42%, var(--dl-color-border));
+    --_fg: var(--dl-color-accent-soft-ink);
+  }
+
+  /* ---- tone: neutral ------------------------------------------------------ */
+  .dl-badge[data-tone="neutral"][data-variant="soft"] {
+    --_bg: var(--dl-color-surface-sunken);
+    --_fg: var(--dl-color-ink-muted);
+  }
+  .dl-badge[data-tone="neutral"][data-variant="solid"] {
+    --_bg: var(--dl-color-ink);
+    --_fg: var(--dl-color-surface);
+  }
+  .dl-badge[data-tone="neutral"][data-variant="outline"] {
+    --_bd: var(--dl-color-border-strong);
+    --_fg: var(--dl-color-ink-muted);
+  }
+
+  /* ---- tone: danger ------------------------------------------------------- */
+  .dl-badge[data-tone="danger"][data-variant="soft"] {
+    --_bg: var(--dl-color-danger-soft);
+    --_fg: var(--dl-color-danger);
+  }
+  .dl-badge[data-tone="danger"][data-variant="solid"] {
+    --_bg: var(--dl-color-danger);
+    --_fg: var(--dl-color-danger-ink);
+  }
+  .dl-badge[data-tone="danger"][data-variant="outline"] {
+    --_bd: color-mix(in oklch, var(--dl-color-danger) 42%, var(--dl-color-border));
+    --_fg: var(--dl-color-danger);
+  }
+
+  /* ---- tone: success ------------------------------------------------------ */
+  .dl-badge[data-tone="success"][data-variant="soft"] {
+    --_bg: color-mix(in oklch, var(--dl-color-success) 12%, var(--dl-color-bg));
+    --_fg: color-mix(in oklch, var(--dl-color-success) 78%, var(--dl-color-ink));
+  }
+  .dl-badge[data-tone="success"][data-variant="solid"] {
+    --_bg: color-mix(in oklch, var(--dl-color-success) 82%, var(--dl-color-ink));
+    --_fg: var(--dl-color-accent-ink);
+  }
+  .dl-badge[data-tone="success"][data-variant="outline"] {
+    --_bd: color-mix(in oklch, var(--dl-color-success) 42%, var(--dl-color-border));
+    --_fg: color-mix(in oklch, var(--dl-color-success) 78%, var(--dl-color-ink));
+  }
+
+  /* ---- tone: warning ------------------------------------------------------ */
+  .dl-badge[data-tone="warning"][data-variant="soft"] {
+    --_bg: color-mix(in oklch, var(--dl-color-warning) 14%, var(--dl-color-bg));
+    --_fg: color-mix(in oklch, var(--dl-color-warning) 70%, var(--dl-color-ink));
+  }
+  .dl-badge[data-tone="warning"][data-variant="solid"] {
+    --_bg: color-mix(in oklch, var(--dl-color-warning) 76%, var(--dl-color-ink));
+    --_fg: var(--dl-color-accent-ink);
+  }
+  .dl-badge[data-tone="warning"][data-variant="outline"] {
+    --_bd: color-mix(in oklch, var(--dl-color-warning) 42%, var(--dl-color-border));
+    --_fg: color-mix(in oklch, var(--dl-color-warning) 68%, var(--dl-color-ink));
+  }
+}

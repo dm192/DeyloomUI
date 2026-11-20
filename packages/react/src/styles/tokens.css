@@ -1,0 +1,216 @@
+/* ==========================================================================
+   Deyloom tokens
+   Light + dark are complete, hand-tuned palettes: warm stone neutrals, one
+   persimmon accent, layered low-alpha shadows and a 1px inner top highlight
+   that carries the "soft tactile" depth language.
+   Tokens live on :root so portalled content (dialogs, menus, toasts) inherits
+   them no matter where Radix mounts it.
+   ========================================================================== */
+
+@layer dl.tokens {
+  :root {
+    color-scheme: light;
+
+    /* ---- palette: light ---------------------------------------------------- */
+    --dl-color-bg: oklch(0.981 0.005 78);
+    --dl-color-bg-subtle: oklch(0.962 0.007 78);
+    --dl-color-surface: oklch(0.997 0.002 78);
+    --dl-color-surface-raised: oklch(1 0 0);
+    --dl-color-surface-sunken: oklch(0.951 0.009 78);
+    --dl-color-surface-inset: oklch(0.969 0.008 78);
+    --dl-color-border: oklch(0.906 0.008 78);
+    --dl-color-border-strong: oklch(0.828 0.012 78);
+    --dl-color-ink: oklch(0.253 0.014 62);
+    --dl-color-ink-muted: oklch(0.474 0.012 62);
+    --dl-color-ink-subtle: oklch(0.552 0.011 62);
+
+    --dl-color-accent: oklch(0.641 0.152 39);
+    --dl-color-accent-hover: color-mix(in oklch, var(--dl-color-accent) 88%, oklch(0.18 0.02 60));
+    --dl-color-accent-active: color-mix(in oklch, var(--dl-color-accent) 78%, oklch(0.18 0.02 60));
+    /* Solid fills carry body text, so they need a darker shade of the same hue:
+       white text on the base accent only reaches 3.5:1. */
+    --dl-color-accent-strong: oklch(0.555 0.145 37);
+    --dl-color-accent-strong-hover: color-mix(in oklch, var(--dl-color-accent-strong) 92%, oklch(0.15 0.02 60));
+    --dl-color-accent-strong-active: color-mix(in oklch, var(--dl-color-accent-strong) 84%, oklch(0.15 0.02 60));
+    --dl-color-accent-ink: oklch(0.995 0.004 78);
+    --dl-color-accent-soft: color-mix(in oklch, var(--dl-color-accent) 13%, var(--dl-color-bg));
+    --dl-color-accent-soft-ink: color-mix(in oklch, var(--dl-color-accent) 72%, oklch(0.2 0.02 60));
+
+    --dl-color-danger: oklch(0.5 0.175 27);
+    --dl-color-danger-soft: color-mix(in oklch, var(--dl-color-danger) 11%, var(--dl-color-bg));
+    --dl-color-danger-ink: oklch(0.995 0.004 78);
+    --dl-color-success: oklch(0.548 0.112 152);
+    --dl-color-warning: oklch(0.66 0.132 72);
+    --dl-color-ring: color-mix(in oklch, var(--dl-color-accent) 62%, transparent);
+    --dl-color-overlay: oklch(0.235 0.012 62 / 0.34);
+
+    /* ---- elevation: light -------------------------------------------------- */
+    --dl-shadow-1: 0 1px 2px -1px oklch(0.28 0.02 62 / 0.1), 0 1px 1px oklch(0.28 0.02 62 / 0.04);
+    --dl-shadow-2: 0 1px 2px oklch(0.28 0.02 62 / 0.06), 0 6px 14px -6px oklch(0.28 0.02 62 / 0.14);
+    --dl-shadow-3: 0 2px 4px oklch(0.28 0.02 62 / 0.06), 0 16px 36px -14px oklch(0.28 0.02 62 / 0.22);
+    --dl-edge: inset 0 1px 0 oklch(1 0 0 / 0.7);
+    --dl-edge-translucent: inset 0 1px 0 oklch(1 0 0 / 0.28);
+
+    /* ---- geometry ---------------------------------------------------------- */
+    --dl-radius-xs: 6px;
+    --dl-radius-sm: 10px;
+    --dl-radius-md: 14px;
+    --dl-radius-lg: 20px;
+    --dl-radius-xl: 28px;
+    --dl-radius-full: 999px;
+
+    --dl-space-1: 2px;
+    --dl-space-2: 4px;
+    --dl-space-3: 6px;
+    --dl-space-4: 8px;
+    --dl-space-5: 12px;
+    --dl-space-6: 16px;
+    --dl-space-7: 20px;
+    --dl-space-8: 24px;
+    --dl-space-9: 32px;
+    --dl-space-10: 40px;
+
+    --dl-control-h-xs: 24px;
+    --dl-control-h-sm: 30px;
+    --dl-control-h-md: 36px;
+    --dl-control-h-lg: 44px;
+
+    /* ---- typography -------------------------------------------------------- */
+    --dl-font-sans: "Inter Variable", "Inter", ui-sans-serif, system-ui, -apple-system,
+      "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    --dl-font-mono: ui-monospace, "SFMono-Regular", "Cascadia Code", "JetBrains Mono", Menlo,
+      monospace;
+
+    --dl-text-xs: 0.75rem;
+    --dl-text-sm: 0.8125rem;
+    --dl-text-md: 0.875rem;
+    --dl-text-lg: 1rem;
+    --dl-text-xl: 1.125rem;
+    --dl-text-2xl: 1.375rem;
+    --dl-text-3xl: 1.75rem;
+
+    --dl-weight-normal: 400;
+    --dl-weight-medium: 500;
+    --dl-weight-semibold: 600;
+
+    --dl-leading-tight: 1.25;
+    --dl-leading-base: 1.5;
+
+    /* ---- motion ------------------------------------------------------------ */
+    --dl-dur-1: 90ms;
+    --dl-dur-2: 160ms;
+    --dl-dur-3: 240ms;
+    --dl-dur-4: 360ms;
+    --dl-dur-5: 560ms;
+
+    --dl-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    --dl-ease-in: cubic-bezier(0.4, 0, 1, 1);
+    --dl-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+    --dl-ease-spring: cubic-bezier(0.34, 1.36, 0.64, 1);
+  }
+
+  /* ---- palette: dark ------------------------------------------------------- */
+  [data-dl-theme="dark"] {
+    color-scheme: dark;
+
+    --dl-color-bg: oklch(0.196 0.008 62);
+    --dl-color-bg-subtle: oklch(0.226 0.009 62);
+    --dl-color-surface: oklch(0.232 0.009 62);
+    --dl-color-surface-raised: oklch(0.262 0.01 62);
+    --dl-color-surface-sunken: oklch(0.176 0.007 62);
+    --dl-color-surface-inset: oklch(0.214 0.009 62);
+    --dl-color-border: oklch(0.318 0.011 62);
+    --dl-color-border-strong: oklch(0.404 0.013 62);
+    --dl-color-ink: oklch(0.951 0.006 78);
+    --dl-color-ink-muted: oklch(0.738 0.01 78);
+    --dl-color-ink-subtle: oklch(0.646 0.01 78);
+
+    --dl-color-accent: oklch(0.722 0.148 44);
+    --dl-color-accent-hover: color-mix(in oklch, var(--dl-color-accent) 86%, white);
+    --dl-color-accent-active: color-mix(in oklch, var(--dl-color-accent) 74%, white);
+    --dl-color-accent-strong: var(--dl-color-accent);
+    --dl-color-accent-strong-hover: color-mix(in oklch, var(--dl-color-accent) 90%, white);
+    --dl-color-accent-strong-active: color-mix(in oklch, var(--dl-color-accent) 88%, black);
+    --dl-color-accent-ink: oklch(0.196 0.012 50);
+    --dl-color-accent-soft: color-mix(in oklch, var(--dl-color-accent) 16%, var(--dl-color-bg));
+    --dl-color-accent-soft-ink: color-mix(in oklch, var(--dl-color-accent) 70%, white);
+
+    --dl-color-danger: oklch(0.672 0.176 26);
+    --dl-color-danger-soft: color-mix(in oklch, var(--dl-color-danger) 15%, var(--dl-color-bg));
+    --dl-color-danger-ink: oklch(0.196 0.012 30);
+    --dl-color-success: oklch(0.702 0.118 152);
+    --dl-color-warning: oklch(0.792 0.128 80);
+    --dl-color-ring: color-mix(in oklch, var(--dl-color-accent) 72%, transparent);
+    --dl-color-overlay: oklch(0.06 0.004 62 / 0.62);
+
+    --dl-shadow-1: 0 1px 2px oklch(0 0 0 / 0.4);
+    --dl-shadow-2: 0 2px 6px oklch(0 0 0 / 0.35), 0 10px 24px -10px oklch(0 0 0 / 0.55);
+    --dl-shadow-3: 0 4px 10px oklch(0 0 0 / 0.4), 0 24px 48px -18px oklch(0 0 0 / 0.7);
+    --dl-edge: inset 0 1px 0 oklch(1 0 0 / 0.07);
+    --dl-edge-translucent: inset 0 1px 0 oklch(1 0 0 / 0.12);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-dl-theme="light"]) {
+      color-scheme: dark;
+
+      --dl-color-bg: oklch(0.196 0.008 62);
+      --dl-color-bg-subtle: oklch(0.226 0.009 62);
+      --dl-color-surface: oklch(0.232 0.009 62);
+      --dl-color-surface-raised: oklch(0.262 0.01 62);
+      --dl-color-surface-sunken: oklch(0.176 0.007 62);
+      --dl-color-surface-inset: oklch(0.214 0.009 62);
+      --dl-color-border: oklch(0.318 0.011 62);
+      --dl-color-border-strong: oklch(0.404 0.013 62);
+      --dl-color-ink: oklch(0.951 0.006 78);
+      --dl-color-ink-muted: oklch(0.738 0.01 78);
+      --dl-color-ink-subtle: oklch(0.646 0.01 78);
+
+      --dl-color-accent: oklch(0.722 0.148 44);
+      --dl-color-accent-hover: color-mix(in oklch, var(--dl-color-accent) 86%, white);
+      --dl-color-accent-active: color-mix(in oklch, var(--dl-color-accent) 74%, white);
+      --dl-color-accent-strong: var(--dl-color-accent);
+      --dl-color-accent-strong-hover: color-mix(in oklch, var(--dl-color-accent) 90%, white);
+      --dl-color-accent-strong-active: color-mix(in oklch, var(--dl-color-accent) 88%, black);
+      --dl-color-accent-ink: oklch(0.196 0.012 50);
+      --dl-color-accent-soft: color-mix(in oklch, var(--dl-color-accent) 16%, var(--dl-color-bg));
+      --dl-color-accent-soft-ink: color-mix(in oklch, var(--dl-color-accent) 70%, white);
+
+      --dl-color-danger: oklch(0.672 0.176 26);
+      --dl-color-danger-soft: color-mix(in oklch, var(--dl-color-danger) 15%, var(--dl-color-bg));
+      --dl-color-danger-ink: oklch(0.196 0.012 30);
+      --dl-color-success: oklch(0.702 0.118 152);
+      --dl-color-warning: oklch(0.792 0.128 80);
+      --dl-color-ring: color-mix(in oklch, var(--dl-color-accent) 72%, transparent);
+      --dl-color-overlay: oklch(0.06 0.004 62 / 0.62);
+
+      --dl-shadow-1: 0 1px 2px oklch(0 0 0 / 0.4);
+      --dl-shadow-2: 0 2px 6px oklch(0 0 0 / 0.35), 0 10px 24px -10px oklch(0 0 0 / 0.55);
+      --dl-shadow-3: 0 4px 10px oklch(0 0 0 / 0.4), 0 24px 48px -18px oklch(0 0 0 / 0.7);
+      --dl-edge: inset 0 1px 0 oklch(1 0 0 / 0.07);
+      --dl-edge-translucent: inset 0 1px 0 oklch(1 0 0 / 0.12);
+    }
+  }
+
+  /* ---- motion degradation -------------------------------------------------- */
+  /* Durations collapse to an imperceptible value but stay non-zero so
+     transitionend listeners still fire. Looping animations are switched off
+     component by component, keeping a static state indicator. */
+  @media (prefers-reduced-motion: reduce) {
+    :root {
+      --dl-dur-1: 0.01ms;
+      --dl-dur-2: 0.01ms;
+      --dl-dur-3: 0.01ms;
+      --dl-dur-4: 0.01ms;
+      --dl-dur-5: 0.01ms;
+    }
+  }
+
+  [data-dl-motion="reduced"] {
+    --dl-dur-1: 0.01ms;
+    --dl-dur-2: 0.01ms;
+    --dl-dur-3: 0.01ms;
+    --dl-dur-4: 0.01ms;
+    --dl-dur-5: 0.01ms;
+  }
+}

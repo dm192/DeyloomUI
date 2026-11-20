@@ -1,0 +1,53 @@
+{
+  "generatedAt": "2026-11-20T15:52:32.532Z",
+  "budgets": {
+    "jsGzip": 24576,
+    "cssGzip": 11264
+  },
+  "totals": {
+    "jsGzip": 17700,
+    "cssGzip": 8911
+  },
+  "entries": [
+    {
+      "file": "chunk-4RCGXJK3.cjs",
+      "raw": 3970,
+      "gzip": 1234
+    },
+    {
+      "file": "chunk-CZYW5MSU.js",
+      "raw": 3624,
+      "gzip": 1171
+    },
+    {
+      "file": "index.cjs",
+      "raw": 98004,
+      "gzip": 16922
+    },
+    {
+      "file": "index.js",
+      "raw": 88512,
+      "gzip": 16308
+    },
+    {
+      "file": "motion.cjs",
+      "raw": 2226,
+      "gzip": 385
+    },
+    {
+      "file": "motion.js",
+      "raw": 298,
+      "gzip": 221
+    },
+    {
+      "file": "styles.css",
+      "raw": 61378,
+      "gzip": 8911
+    },
+    {
+      "file": "tokens.css",
+      "raw": 7163,
+      "gzip": 1433
+    }
+  ]
+}

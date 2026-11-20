@@ -1,0 +1,3 @@
+/* Declares layer order once. Every other stylesheet only adds to these layers,
+   so consumers can override anything without specificity fights. */
+@layer dl.reset, dl.tokens, dl.base, dl.components, dl.utilities;

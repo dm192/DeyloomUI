@@ -1,0 +1,201 @@
+@layer dl.components {
+  .dl-btn {
+    --_bg: transparent;
+    --_fg: var(--dl-color-ink);
+    --_bd: transparent;
+    --_shadow: none;
+
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--dl-space-2);
+    height: var(--dl-control-h-md);
+    padding-inline: var(--dl-space-5);
+    border: 1px solid var(--_bd);
+    border-radius: var(--dl-radius-sm);
+    background: var(--_bg);
+    box-shadow: var(--_shadow);
+    color: var(--_fg);
+    font-family: var(--dl-font-sans);
+    font-size: var(--dl-text-md);
+    font-weight: var(--dl-weight-medium);
+    line-height: 1;
+    letter-spacing: -0.006em;
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    transition:
+      background-color var(--dl-dur-2) var(--dl-ease-out),
+      border-color var(--dl-dur-2) var(--dl-ease-out),
+      color var(--dl-dur-2) var(--dl-ease-out),
+      box-shadow var(--dl-dur-2) var(--dl-ease-out),
+      opacity var(--dl-dur-2) var(--dl-ease-out);
+  }
+
+  .dl-btn:disabled {
+    opacity: 0.48;
+    cursor: not-allowed;
+  }
+
+  .dl-btn[data-loading="true"] {
+    cursor: progress;
+  }
+
+  .dl-btn__label {
+    display: inline-flex;
+    align-items: center;
+    min-width: 0;
+  }
+
+  .dl-btn__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+  }
+
+  .dl-btn__spinner {
+    width: 0.92em;
+    height: 0.92em;
+    margin-inline-start: -0.1em;
+  }
+
+  /* ---- sizes ------------------------------------------------------------- */
+  .dl-btn[data-size="sm"] {
+    height: var(--dl-control-h-sm);
+    padding-inline: var(--dl-space-4);
+    border-radius: var(--dl-radius-xs);
+    font-size: var(--dl-text-sm);
+  }
+
+  .dl-btn[data-size="lg"] {
+    height: var(--dl-control-h-lg);
+    padding-inline: var(--dl-space-6);
+    border-radius: var(--dl-radius-md);
+    font-size: var(--dl-text-lg);
+    gap: var(--dl-space-3);
+  }
+
+  /* ---- solid ------------------------------------------------------------- */
+  .dl-btn[data-variant="solid"][data-tone="accent"] {
+    --_bg: var(--dl-color-accent-strong);
+    --_fg: var(--dl-color-accent-ink);
+    --_shadow: var(--dl-shadow-1), var(--dl-edge-translucent);
+  }
+  .dl-btn[data-variant="solid"][data-tone="accent"]:not(:disabled):hover {
+    --_bg: var(--dl-color-accent-strong-hover);
+  }
+  .dl-btn[data-variant="solid"][data-tone="accent"]:not(:disabled):active {
+    --_bg: var(--dl-color-accent-strong-active);
+  }
+
+  .dl-btn[data-variant="solid"][data-tone="neutral"] {
+    --_bg: var(--dl-color-surface-raised);
+    --_fg: var(--dl-color-ink);
+    --_bd: var(--dl-color-border);
+    --_shadow: var(--dl-shadow-1), var(--dl-edge);
+  }
+  .dl-btn[data-variant="solid"][data-tone="neutral"]:not(:disabled):hover {
+    --_bg: var(--dl-color-surface);
+    --_bd: var(--dl-color-border-strong);
+  }
+
+  .dl-btn[data-variant="solid"][data-tone="danger"] {
+    --_bg: var(--dl-color-danger);
+    --_fg: var(--dl-color-danger-ink);
+    --_shadow: var(--dl-shadow-1), var(--dl-edge-translucent);
+  }
+  .dl-btn[data-variant="solid"][data-tone="danger"]:not(:disabled):hover {
+    --_bg: color-mix(in oklch, var(--dl-color-danger) 88%, var(--dl-color-ink));
+  }
+
+  /* ---- soft -------------------------------------------------------------- */
+  .dl-btn[data-variant="soft"][data-tone="accent"] {
+    --_bg: var(--dl-color-accent-soft);
+    --_fg: var(--dl-color-accent-soft-ink);
+  }
+  .dl-btn[data-variant="soft"][data-tone="accent"]:not(:disabled):hover {
+    --_bg: color-mix(in oklch, var(--dl-color-accent) 22%, var(--dl-color-bg));
+  }
+
+  .dl-btn[data-variant="soft"][data-tone="neutral"] {
+    --_bg: var(--dl-color-surface-sunken);
+    --_fg: var(--dl-color-ink);
+  }
+  .dl-btn[data-variant="soft"][data-tone="neutral"]:not(:disabled):hover {
+    --_bg: var(--dl-color-surface-inset);
+  }
+
+  .dl-btn[data-variant="soft"][data-tone="danger"] {
+    --_bg: var(--dl-color-danger-soft);
+    --_fg: var(--dl-color-danger);
+  }
+  .dl-btn[data-variant="soft"][data-tone="danger"]:not(:disabled):hover {
+    --_bg: color-mix(in oklch, var(--dl-color-danger) 18%, var(--dl-color-bg));
+  }
+
+  /* ---- outline / ghost / link -------------------------------------------- */
+  .dl-btn[data-variant="outline"] {
+    --_bd: var(--dl-color-border-strong);
+    --_fg: var(--dl-color-ink);
+  }
+  .dl-btn[data-variant="outline"]:not(:disabled):hover {
+    --_bg: var(--dl-color-surface-inset);
+  }
+
+  .dl-btn[data-variant="ghost"] {
+    --_fg: var(--dl-color-ink-muted);
+  }
+  .dl-btn[data-variant="ghost"]:not(:disabled):hover {
+    --_bg: var(--dl-color-surface-inset);
+    --_fg: var(--dl-color-ink);
+  }
+
+  .dl-btn[data-variant="outline"][data-tone="accent"],
+  .dl-btn[data-variant="ghost"][data-tone="accent"] {
+    --_fg: var(--dl-color-accent-soft-ink);
+  }
+  .dl-btn[data-variant="outline"][data-tone="accent"]:not(:disabled):hover,
+  .dl-btn[data-variant="ghost"][data-tone="accent"]:not(:disabled):hover {
+    --_bg: var(--dl-color-accent-soft);
+    --_fg: var(--dl-color-accent-soft-ink);
+  }
+
+  .dl-btn[data-variant="outline"][data-tone="danger"],
+  .dl-btn[data-variant="ghost"][data-tone="danger"] {
+    --_fg: var(--dl-color-danger);
+  }
+  .dl-btn[data-variant="outline"][data-tone="danger"]:not(:disabled):hover,
+  .dl-btn[data-variant="ghost"][data-tone="danger"]:not(:disabled):hover {
+    --_bg: var(--dl-color-danger-soft);
+  }
+
+  .dl-btn[data-variant="link"] {
+    height: auto;
+    padding-inline: 0;
+    border-color: transparent;
+    --_fg: var(--dl-color-accent-soft-ink);
+    text-underline-offset: 3px;
+  }
+  .dl-btn[data-variant="link"]:not(:disabled):hover {
+    text-decoration: underline;
+  }
+
+  /* ---- icon button ------------------------------------------------------- */
+  .dl-icon-btn {
+    padding-inline: 0;
+    flex: 0 0 auto;
+  }
+
+  .dl-icon-btn[data-size="sm"] {
+    width: var(--dl-control-h-sm);
+  }
+  .dl-icon-btn[data-size="md"] {
+    width: var(--dl-control-h-md);
+  }
+  .dl-icon-btn[data-size="lg"] {
+    width: var(--dl-control-h-lg);
+  }
+}

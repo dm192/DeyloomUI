@@ -1,0 +1,85 @@
+@layer dl.components {
+  .dl-marquee {
+    --dl-marquee-gap: var(--dl-space-8);
+
+    position: relative;
+    overflow: hidden;
+    max-inline-size: 100%;
+  }
+
+  /* Fade only the viewport edges; the mask is static and never animated. */
+  .dl-marquee[data-fade="true"] {
+    mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      #000 var(--dl-space-10),
+      #000 calc(100% - var(--dl-space-10)),
+      transparent 100%
+    );
+  }
+
+  .dl-marquee__track {
+    display: flex;
+    align-items: center;
+    inline-size: max-content;
+  }
+
+  /* The track is the only marquee element that runs a loop; duration comes from
+     the measured copy width / px-per-second. */
+  .dl-marquee[data-ready="true"] .dl-marquee__track.dl-anim-loop {
+    /* dl-motion-allow: a marquee is a continuous movement; the track is one composited transform layer, capped by the viewport. */
+    will-change: transform;
+    animation: dl-marquee var(--dl-marquee-duration) linear infinite;
+  }
+
+  .dl-marquee__group {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: var(--dl-marquee-gap);
+    padding-inline-end: var(--dl-marquee-gap);
+  }
+
+  .dl-marquee[data-direction="right"] .dl-marquee__track.dl-anim-loop {
+    animation-direction: reverse;
+  }
+
+  .dl-marquee[data-pause="hover"]:hover .dl-marquee__track.dl-anim-loop,
+  .dl-marquee[data-pause="hover"]:focus-within .dl-marquee__track.dl-anim-loop {
+    animation-play-state: paused;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dl-marquee {
+      overflow-x: auto;
+      mask-image: none;
+    }
+
+    .dl-marquee__track.dl-anim-loop {
+      /* dl-motion-allow: the loop is replaced by a native scroll container, so the compositor hint is released. */
+      will-change: auto;
+      animation: none;
+    }
+
+    .dl-marquee__group[aria-hidden="true"] {
+      display: none;
+    }
+  }
+
+  [data-dl-motion="reduced"] .dl-marquee,
+  .dl-marquee[data-motion="static"] {
+    overflow-x: auto;
+    mask-image: none;
+  }
+
+  [data-dl-motion="reduced"] .dl-marquee__track.dl-anim-loop,
+  .dl-marquee[data-motion="static"] .dl-marquee__track.dl-anim-loop {
+    /* dl-motion-allow: the loop is replaced by a native scroll container, so the compositor hint is released. */
+    will-change: auto;
+  }
+
+  [data-dl-motion="reduced"] .dl-marquee__group[aria-hidden="true"],
+  .dl-marquee[data-motion="static"] .dl-marquee__group[aria-hidden="true"] {
+    display: none;
+  }
+}
