@@ -5,22 +5,13 @@ import {
   Button,
   Field,
   Slider,
-  springs,
   stagger,
   useDeyloomReducedMotion,
 } from "@deyloom/react";
 import { PageHeader, Section } from "../ui/blocks";
+import { SpringRace } from "../ui/SpringRace";
 
-const SPRING_ORDER = ["press", "snappy", "soft", "gentle"] as const;
-
-const SPRING_NOTES: Record<(typeof SPRING_ORDER)[number], string> = {
-  press: "按压反馈，最硬，几乎无位移",
-  snappy: "小元素换位：开关滑块、页签指示",
-  soft: "默认：卡片与浮层进场",
-  gentle: "大面板与整页编排",
-};
-
-/** Travel distance in px. Fixed so the demo diff is about the spring, not the layout. */
+/** Travel distance in px for the tuner. Fixed so the diff is about the spring, not the layout. */
 const TRAVEL = 196;
 
 function SpringTuner() {
@@ -89,44 +80,6 @@ function SpringTuner() {
   );
 }
 
-function SpringFamily() {
-  const [fired, setFired] = React.useState(false);
-  const reduced = useDeyloomReducedMotion();
-
-  return (
-    <div>
-      <div className="ball-row">
-        {SPRING_ORDER.map((name) => (
-          <div className="ball-row__item" key={name}>
-            <span className="ball-row__label">{name}</span>
-            <div className="ball-row__track">
-              <m.div
-                className="ball-row__ball"
-                animate={{ x: fired ? TRAVEL + 40 : 0 }}
-                transition={reduced ? { duration: 0 } : springs[name]}
-              />
-            </div>
-          </div>
-        ))}
-      </div>
-      <div style={{ display: "flex", gap: 8, marginTop: 14 }}>
-        <Button
-          size="sm"
-          variant="outline"
-          onClick={() => setFired((value) => !value)}
-          startIcon={<PlayIcon className="docs-icon" />}
-        >
-          {fired ? "全部复位" : "同时发射"}
-        </Button>
-      </div>
-      <p className="inline-note">
-        四条弹簧同时出发，落点相同、手感不同：
-        {SPRING_ORDER.map((name) => `${name}（${SPRING_NOTES[name]}）`).join("；")}。
-      </p>
-    </div>
-  );
-}
-
 function StaggerSpecimen() {
   const [items, setItems] = React.useState(() => Array.from({ length: 6 }, (_, index) => index + 1));
   const [run, setRun] = React.useState(0);
@@ -184,7 +137,7 @@ export function MotionPage() {
       </Section>
 
       <Section title="弹簧家族" hint="四个预设的差异只在刚度与阻尼。">
-        <SpringFamily />
+        <SpringRace variant="lab" />
       </Section>
 
       <Section title="交错入场" hint="交错是延迟，不是更多的动画；超过上限后延迟归零，避免可见的等待。">

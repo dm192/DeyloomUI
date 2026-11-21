@@ -9,6 +9,7 @@ import {
   toast,
 } from "@deyloom/react";
 import { PageHeader, Section } from "../ui/blocks";
+import { SpringRace } from "../ui/SpringRace";
 
 const MOTION_CONTRACT = [
   {
@@ -38,77 +39,79 @@ export function HomePage() {
         <h1 className="hero__title">
           一套动效语言，<em>贯穿每个控件</em>。
         </h1>
-        <p className="hero__lede">
-          Deyloom 是 React 19 组件库：按钮、开关、页签与浮层共用同一条弹簧曲线、同一套材质层次和同一个聚焦光圈。
-        </p>
+        <p className="hero__lede">按钮、开关、页签与浮层共用四个弹簧预设。</p>
         <div className="hero__actions">
           <Button asChild size="lg">
-            <a href="#/components">浏览组件</a>
-          </Button>
-          <Button asChild size="lg" variant="soft">
-            <a href="#/getting-started">快速开始</a>
+            <a href="#/motion">试试动效</a>
           </Button>
           <Button asChild size="lg" variant="outline">
-            <a href="#/foundations">查看设计变量</a>
+            <a href="#/components">浏览组件</a>
           </Button>
         </div>
       </section>
 
-      <Card elevation={2} className="study" aria-label="组件组合示例">
-        <div className="study__row">
-          <span className="study__meta-label">分段</span>
-          <SegmentedControl
-            items={[
-              { value: "overview", label: "概览" },
-              { value: "activity", label: "活动" },
-              { value: "settings", label: "设置" },
-            ]}
-            value={segment}
-            onValueChange={setSegment}
-          />
-          <label className="switch-label">
-            <Switch checked={syncEnabled} onCheckedChange={setSyncEnabled} />
-            同步
-          </label>
-        </div>
+      <SpringRace variant="hero" autoRun />
 
-        <div className="study__row">
-          <span className="study__meta-label">强度</span>
-          <div className="study__fill">
-            <Slider
-              aria-label="强度"
-              value={[level]}
-              onValueChange={(next) => setLevel(next[0] ?? 0)}
+      <Section
+        title="控件里的同一套弹簧"
+        hint="下面这些真实控件没有另写一套动画，而是复用同一组弹簧常量。"
+      >
+        <Card elevation={2} className="study" aria-label="组件组合示例">
+          <div className="study__row">
+            <span className="study__meta-label">分段</span>
+            <SegmentedControl
+              items={[
+                { value: "overview", label: "概览" },
+                { value: "activity", label: "活动" },
+                { value: "settings", label: "设置" },
+              ]}
+              value={segment}
+              onValueChange={setSegment}
             />
+            <label className="switch-label">
+              <Switch checked={syncEnabled} onCheckedChange={setSyncEnabled} />
+              同步
+            </label>
           </div>
-          <span className="study__value">{level}</span>
-        </div>
 
-        <div className="study__row">
-          <span className="study__meta-label">数字滚动</span>
-          <span className="study__counter">
-            <NumberFlow value={count} />
-          </span>
-          <Button variant="outline" onClick={() => setCount((value) => value + Math.ceil(Math.random() * 90))}>
-            增加
-          </Button>
-          <Button variant="ghost" onClick={() => setCount(0)}>
-            归零
-          </Button>
-          <div className="study__spacer" />
-          <Button
-            variant="soft"
-            onClick={() =>
-              toast({
-                title: "已保存",
-                description: "这是真实的 Toast：4.5 秒后自动关闭，悬停会暂停计时。",
-              })
-            }
-          >
-            触发 Toast
-          </Button>
-        </div>
-      </Card>
+          <div className="study__row">
+            <span className="study__meta-label">强度</span>
+            <div className="study__fill">
+              <Slider
+                aria-label="强度"
+                value={[level]}
+                onValueChange={(next) => setLevel(next[0] ?? 0)}
+              />
+            </div>
+            <span className="study__value">{level}</span>
+          </div>
+
+          <div className="study__row">
+            <span className="study__meta-label">数字滚动</span>
+            <span className="study__counter">
+              <NumberFlow value={count} />
+            </span>
+            <Button variant="outline" onClick={() => setCount((value) => value + Math.ceil(Math.random() * 90))}>
+              增加
+            </Button>
+            <Button variant="ghost" onClick={() => setCount(0)}>
+              归零
+            </Button>
+            <div className="study__spacer" />
+            <Button
+              variant="soft"
+              onClick={() =>
+                toast({
+                  title: "已保存",
+                  description: "这是真实的 Toast：4.5 秒后自动关闭，悬停会暂停计时。",
+                })
+              }
+            >
+              触发 Toast
+            </Button>
+          </div>
+        </Card>
+      </Section>
 
       <Section title="两条命令开始" hint="库本身零配置：一个 Provider、一份 CSS。">
         <pre className="codeblock dl-scrollbar">

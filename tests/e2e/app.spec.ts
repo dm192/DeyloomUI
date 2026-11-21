@@ -110,6 +110,14 @@ test.describe("app shell", () => {
     await expect(page.locator(".sidebar .dl-scroll-area")).toHaveCount(1);
     await expect(page.locator(".study.dl-card")).toBeVisible();
 
+    // The first screen proves the motion system before it asks for a click.
+    await expect(page.locator(".spring-race--hero")).toBeVisible();
+    await expect(page.locator(".spring-race--hero .spring-race__lane")).toHaveCount(4);
+    await expect(page.getByRole("link", { name: "试试动效" })).toHaveAttribute(
+      "href",
+      "#/motion",
+    );
+
     await page.goto("/#/motion");
     await expect(page.locator(".dl-slider")).toHaveCount(2);
     await expect(page.locator('input[type="range"]')).toHaveCount(0);

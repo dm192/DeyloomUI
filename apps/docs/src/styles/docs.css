@@ -390,7 +390,6 @@ p {
 
 /* Surface/border/shadow come from the library Card; docs only sets rhythm. */
 .study {
-  margin-top: 48px;
   padding: 22px;
 }
 
@@ -480,8 +479,9 @@ p {
 
 .section__head {
   display: flex;
+  flex-wrap: wrap;
   align-items: baseline;
-  gap: 12px;
+  gap: 4px 12px;
   padding-bottom: 10px;
   margin-bottom: 20px;
   border-bottom: 1px solid var(--dl-color-border);
@@ -1321,40 +1321,135 @@ p {
   color: var(--dl-color-accent-soft-ink);
 }
 
-.ball-row {
+/* ---- spring race --------------------------------------------------------- */
+/* One displacement, four springs. Hero renders it as a titled card; the lab
+   reuses the same markup with the previous ball-row geometry. */
+.spring-race {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.spring-race--hero {
+  margin-top: 40px;
+  padding: 20px;
+}
+
+.spring-race__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.spring-race__title {
+  font-size: var(--dl-text-sm);
+  font-weight: var(--dl-weight-semibold);
+  letter-spacing: -0.01em;
+}
+
+.spring-race__lanes {
   display: grid;
   gap: 10px;
 }
 
-.ball-row__item {
+.spring-race__lane {
   display: grid;
   grid-template-columns: 88px minmax(0, 1fr);
   align-items: center;
   gap: 12px;
 }
 
-.ball-row__label {
-  font-family: var(--dl-font-mono);
+.spring-race__label {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  min-inline-size: 0;
   font-size: 11px;
   color: var(--dl-color-ink-subtle);
 }
 
-.ball-row__track {
+.spring-race__name {
+  min-inline-size: 52px;
+  font-family: var(--dl-font-mono);
+  font-size: 11px;
+  color: var(--dl-color-ink-muted);
+}
+
+.spring-race__track {
   position: relative;
-  height: 34px;
+  block-size: 30px;
   border-radius: var(--dl-radius-full);
   background: var(--dl-color-surface-sunken);
   overflow: hidden;
 }
 
-.ball-row__ball {
+.spring-race__ball {
   position: absolute;
-  top: 4px;
-  left: 4px;
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
+  inset-block-start: 50%;
+  inset-inline-start: 4px;
+  inline-size: 24px;
+  block-size: 24px;
+  margin-block-start: -12px;
+  border-radius: var(--dl-radius-full);
   background: var(--dl-color-accent);
   box-shadow: var(--dl-shadow-1), var(--dl-edge-translucent);
+}
+
+.spring-race__caption {
+  font-size: var(--dl-text-xs);
+  line-height: 1.6;
+  color: var(--dl-color-ink-subtle);
+}
+
+.spring-race__caption a {
+  margin-inline-start: 6px;
+  color: var(--dl-color-accent-soft-ink);
+  text-decoration-color: color-mix(in oklch, var(--dl-color-accent) 45%, transparent);
+  text-underline-offset: 3px;
+}
+
+.spring-race__hint {
+  display: block;
+  margin-top: 4px;
+}
+
+.spring-race__actions {
+  display: flex;
+}
+
+.spring-race--lab .spring-race__track {
+  block-size: 34px;
+}
+
+.spring-race--lab .spring-race__ball {
+  inline-size: 26px;
+  block-size: 26px;
+  margin-block-start: -13px;
+}
+
+@media (max-width: 720px) {
+  .spring-race--hero {
+    margin-top: 32px;
+    padding: 16px;
+  }
+
+  /* On phones the label column would eat the travel; put labels above the
+     track so the four lanes keep a useful distance. */
+  .spring-race--hero .spring-race__lane {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 6px;
+  }
+
+  .spring-race--hero .spring-race__track {
+    block-size: 28px;
+  }
+
+  .spring-race--hero .spring-race__ball {
+    inline-size: 22px;
+    block-size: 22px;
+    margin-block-start: -11px;
+  }
 }
 

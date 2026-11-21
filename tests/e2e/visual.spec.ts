@@ -26,6 +26,12 @@ async function shot(page: Page, name: string) {
   await page.screenshot({ path: path.join(OUT_DIR, `${name}.png`), fullPage: false });
 }
 
+/** The hero spring race autoplays once; wait for the resting state so captures are stable. */
+async function settleRace(page: Page) {
+  await expect(page.locator(".spring-race__head button")).toHaveText("再跑一次", { timeout: 5000 });
+  await page.waitForTimeout(1200);
+}
+
 test.describe("visual captures", () => {
   // Deterministic star count: the GitHub entry must look the same on every run.
   test.beforeEach(async ({ page }) => {
@@ -41,13 +47,18 @@ test.describe("visual captures", () => {
   test("home, light and dark", async ({ page }) => {
     await open(page, "/#/");
     await expect(page.locator("main h1").first()).toBeVisible();
+    await settleRace(page);
     await shot(page, "home-light");
 
+    // Mount the dark theme with motion enabled too: otherwise the reload would
+    // pick up settle()'s reduced-motion emulation and hide the hero trigger.
+    await page.emulateMedia({ colorScheme: "light", reducedMotion: "no-preference" });
     await page.addInitScript(() => window.localStorage.setItem("deyloom-theme", "dark"));
     await page.reload();
     await page.locator("main h1").first().waitFor();
     await settle(page);
     await expect(page.locator("html")).toHaveAttribute("data-dl-theme", "dark");
+    await settleRace(page);
     await shot(page, "home-dark");
   });
 
@@ -108,6 +119,7 @@ test.describe("visual captures", () => {
   test("mobile home and navigation drawer", async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await open(page, "/#/");
+    await settleRace(page);
     await shot(page, "mobile-home");
 
     await page.getByRole("button", { name: /打开目录/ }).click();

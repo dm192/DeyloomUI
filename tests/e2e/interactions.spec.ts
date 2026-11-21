@@ -239,4 +239,46 @@ test.describe("scroll coverage", () => {
     });
     expect(panelRecipe.color).not.toBe("auto");
   });
+
+  test.describe("home spring race", () => {
+    test("autoplays once, then replays from the same start", async ({ page }) => {
+      await page.goto("/#/");
+      await page.locator("main h1").first().waitFor();
+
+      const race = page.locator(".spring-race--hero");
+      await expect(race).toBeVisible();
+      await expect(race.locator(".spring-race__lane")).toHaveCount(4);
+
+      const balls = race.locator(".spring-race__ball");
+      const trigger = race.locator(".spring-race__head button");
+      // One-shot autoplay switches the trigger label to "再跑一次".
+      await expect(trigger).toHaveText("再跑一次", { timeout: 5000 });
+      await page.waitForTimeout(1400);
+
+      const settled = await balls.first().evaluate((el) => getComputedStyle(el).transform);
+      expect(settled).not.toBe("none");
+
+      await trigger.click();
+      await page.waitForTimeout(120);
+      const midFlight = await balls.first().evaluate((el) => getComputedStyle(el).transform);
+      expect(midFlight).not.toBe(settled);
+
+      await page.waitForTimeout(1400);
+      const transforms = await balls.evaluateAll((els) =>
+        els.map((el) => getComputedStyle(el).transform),
+      );
+      // Same displacement, same endpoint; only the spring differs.
+      expect(new Set(transforms).size).toBe(1);
+    });
+
+    test("reduced motion shows the static comparison", async ({ page }) => {
+      await page.emulateMedia({ reducedMotion: "reduce" });
+      await page.goto("/#/");
+
+      const race = page.locator(".spring-race--hero");
+      await expect(race).toBeVisible();
+      await expect(race.locator(".spring-race__head button")).toHaveCount(0);
+      await expect(race.locator(".spring-race__hint")).toBeVisible();
+    });
+  });
 });
