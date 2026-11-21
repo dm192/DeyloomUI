@@ -2,6 +2,7 @@ import { expect, test } from "@playwright/test";
 
 const ROUTES = [
   "/",
+  "/#/getting-started",
   "/#/components",
   "/#/components/button",
   "/#/components/slider",
@@ -13,6 +14,7 @@ const ROUTES = [
   "/#/foundations",
   "/#/motion",
   "/#/performance",
+  "/#/license",
 ];
 
 const IGNORED_CONSOLE = [/Reduced Motion/i, /Download the React DevTools/i];
@@ -86,6 +88,18 @@ test.describe("app shell", () => {
     await page.getByRole("link", { name: "Button", exact: true }).first().click();
     await expect(page).toHaveURL(/#\/components\/button$/);
     await expect(page.getByRole("heading", { level: 1, name: "Button" })).toBeVisible();
+  });
+
+  test("license page states the code and brand terms", async ({ page }) => {
+    await page.goto("/#/license");
+    await expect(page.getByRole("heading", { level: 1, name: "许可" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "代码：MIT" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "品牌资产：保留权利" })).toBeVisible();
+    await expect(page.locator(".attribution-example")).toContainText("Design by");
+    await expect(page.locator(".attribution-example img")).toHaveAttribute(
+      "src",
+      "/deyloom-icon.svg",
+    );
   });
 
   test("docs shell uses the library's own components", async ({ page }) => {

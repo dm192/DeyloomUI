@@ -45,6 +45,9 @@ export function HomePage() {
           <Button asChild size="lg">
             <a href="#/components">浏览组件</a>
           </Button>
+          <Button asChild size="lg" variant="soft">
+            <a href="#/getting-started">快速开始</a>
+          </Button>
           <Button asChild size="lg" variant="outline">
             <a href="#/foundations">查看设计变量</a>
           </Button>

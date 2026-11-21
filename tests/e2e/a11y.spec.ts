@@ -3,6 +3,7 @@ import { expect, test, type Page } from "@playwright/test";
 
 const PAGES = [
   { name: "home", path: "/#/" },
+  { name: "getting started", path: "/#/getting-started" },
   { name: "components index", path: "/#/components" },
   { name: "button", path: "/#/components/button" },
   { name: "slider", path: "/#/components/slider" },
@@ -12,9 +13,11 @@ const PAGES = [
   { name: "toggle group", path: "/#/components/toggle-group" },
   { name: "alert dialog", path: "/#/components/alert-dialog" },
   { name: "hover card", path: "/#/components/hover-card" },
+  { name: "number flow", path: "/#/components/number-flow" },
   { name: "foundations", path: "/#/foundations" },
   { name: "motion lab", path: "/#/motion" },
   { name: "performance", path: "/#/performance" },
+  { name: "license", path: "/#/license" },
 ];
 
 async function audit(page: Page) {

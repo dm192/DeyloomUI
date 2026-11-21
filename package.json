@@ -2,6 +2,11 @@
   "name": "deyloom",
   "private": true,
   "version": "0.1.0",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dm192/DeyloomUI"
+  },
   "type": "module",
   "description": "Deyloom — a React UI library built around one unified motion language.",
   "workspaces": [

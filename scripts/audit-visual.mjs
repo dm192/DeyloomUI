@@ -24,7 +24,15 @@ const BASE =
   (baseArgIndex !== -1 ? process.argv[baseArgIndex + 1] : process.env.BASE) ??
   "http://127.0.0.1:4173";
 
-const DOC_ROUTES = ["/#/", "/#/components", "/#/foundations", "/#/motion", "/#/performance"];
+const DOC_ROUTES = [
+  "/#/",
+  "/#/getting-started",
+  "/#/components",
+  "/#/foundations",
+  "/#/motion",
+  "/#/performance",
+  "/#/license",
+];
 
 function collectDemoFiles(dir, out = []) {
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
@@ -109,6 +117,28 @@ async function main() {
     if (overflow > 1) {
       problems.push({ route, theme, kind: "horizontal-overflow", detail: `${overflow}px` });
     }
+
+    // Dogfooding guard: docs chrome and demos must not fall back to raw form
+    // controls. Every library control renders with a `dl-*` class, so anything
+    // without one is a hand-rolled form element that slipped through.
+    const nativeControls = await page.evaluate(() => {
+      const elements = Array.from(document.querySelectorAll("input, select, textarea, button"));
+      return elements
+        .filter((element) => {
+          const className = typeof element.className === "string" ? element.className : "";
+          return !className.includes("dl-");
+        })
+        .map((element) => {
+          const type = element.getAttribute("type");
+          const className = typeof element.className === "string" ? element.className : "";
+          return `${element.tagName.toLowerCase()}${type ? `[${type}]` : ""}${className ? `.${className.split(/\s+/).join(".")}` : ""}`;
+        })
+        .slice(0, 8);
+    });
+    if (nativeControls.length > 0) {
+      problems.push({ route, theme, kind: "native-control", detail: nativeControls.join(" | ") });
+    }
+
     for (const error of errors) {
       consoleProblems.push({ route, theme, detail: error });
     }

@@ -2,9 +2,11 @@ import * as React from "react";
 
 export type Route =
   | { name: "home" }
+  | { name: "getting-started" }
   | { name: "foundations" }
   | { name: "motion" }
   | { name: "performance" }
+  | { name: "license" }
   | { name: "harness" }
   | { name: "components" }
   | { name: "component"; slug: string }
@@ -16,12 +18,16 @@ export function parseRoute(hash: string): Route {
 
   const [head, second] = path.split("/");
   switch (head) {
+    case "getting-started":
+      return { name: "getting-started" };
     case "foundations":
       return { name: "foundations" };
     case "motion":
       return { name: "motion" };
     case "performance":
       return { name: "performance" };
+    case "license":
+      return { name: "license" };
     case "harness":
       return { name: "harness" };
     case "components":

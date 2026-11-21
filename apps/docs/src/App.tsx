@@ -32,6 +32,12 @@ const ComponentDetailPage = React.lazy(() =>
 const FoundationsPage = React.lazy(() =>
   import("./pages/Foundations").then((module) => ({ default: module.FoundationsPage })),
 );
+const GettingStartedPage = React.lazy(() =>
+  import("./pages/GettingStarted").then((module) => ({ default: module.GettingStartedPage })),
+);
+const LicensePage = React.lazy(() =>
+  import("./pages/License").then((module) => ({ default: module.LicensePage })),
+);
 const HarnessPage = React.lazy(() =>
   import("./pages/Harness").then((module) => ({ default: module.HarnessPage })),
 );
@@ -135,9 +141,11 @@ function TopBar(props: { route: Route; navOpen: boolean; onToggleNav: () => void
 
 const DOC_PAGES: { path: string; label: string; match: Route["name"][] }[] = [
   { path: "#/", label: "总览", match: ["home"] },
+  { path: "#/getting-started", label: "快速开始", match: ["getting-started"] },
   { path: "#/foundations", label: "设计变量", match: ["foundations"] },
   { path: "#/motion", label: "动效实验室", match: ["motion"] },
   { path: "#/performance", label: "性能", match: ["performance"] },
+  { path: "#/license", label: "许可", match: ["license"] },
 ];
 
 /** One navigation tree, shared by the sticky sidebar and the mobile drawer. */
@@ -198,12 +206,16 @@ function renderPage(route: Route) {
   switch (route.name) {
     case "home":
       return <HomePage />;
+    case "getting-started":
+      return <GettingStartedPage />;
     case "foundations":
       return <FoundationsPage />;
     case "motion":
       return <MotionPage />;
     case "performance":
       return <PerformancePage />;
+    case "license":
+      return <LicensePage />;
     case "harness":
       return <HarnessPage />;
     case "components":
@@ -243,7 +255,8 @@ export function App() {
             <React.Suspense fallback={<div className="empty-state">加载中…</div>}>{content}</React.Suspense>
             <footer className="page-footer">
               Deyloom 0.1.0 · React 19 ·{" "}
-              <a href="#/foundations">设计变量</a> · <a href="#/motion">动效实验室</a>
+              <a href="#/getting-started">快速开始</a> · <a href="#/foundations">设计变量</a> ·{" "}
+              <a href="#/motion">动效实验室</a> · <a href="#/license">许可</a>
             </footer>
           </div>
         </main>

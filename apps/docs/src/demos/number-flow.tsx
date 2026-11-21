@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Button, NumberFlow } from "@deyloom/react";
+import { Button, NumberFlow, Slider } from "@deyloom/react";
 import type { DemoEntry } from "./types";
 
 const bigNumber: React.CSSProperties = {
@@ -21,14 +21,13 @@ function LiveValueDemo() {
           format={{ style: "currency", currency: "CNY", maximumFractionDigits: 0 }}
         />
       </div>
-      <input
-        type="range"
+      <Slider
+        aria-label="调整金额"
         min={0}
         max={50000}
         step={100}
-        value={value}
-        aria-label="调整金额"
-        onChange={(event) => setValue(Number(event.target.value))}
+        value={[value]}
+        onValueChange={(next) => setValue(next[0] ?? value)}
       />
     </div>
   );

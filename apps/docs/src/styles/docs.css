@@ -1189,6 +1189,47 @@ p {
   color: var(--dl-color-ink-muted);
 }
 
+/* ---- license ------------------------------------------------------------- */
+.license-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 14px;
+}
+
+.license-card {
+  padding: 16px 18px;
+}
+
+.license-card__title {
+  margin: 0 0 8px;
+  font-size: var(--dl-text-sm);
+  font-weight: var(--dl-weight-semibold);
+}
+
+.license-card__list {
+  margin: 0;
+  padding: 0 0 0 18px;
+  border: 0;
+  background: none;
+}
+
+.attribution-example {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 18px;
+  padding: 8px 14px;
+  border: 1px solid var(--dl-color-border);
+  border-radius: var(--dl-radius-full);
+  background: var(--dl-color-surface);
+  font-size: var(--dl-text-sm);
+  color: var(--dl-color-ink-muted);
+}
+
+.attribution-example img {
+  display: block;
+}
+
 /* ---- misc ---------------------------------------------------------------- */
 .inline-note {
   margin-top: 14px;
