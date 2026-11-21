@@ -18,6 +18,18 @@ const ROUTES = [
 const IGNORED_CONSOLE = [/Reduced Motion/i, /Download the React DevTools/i];
 
 test.describe("app shell", () => {
+  // Keep the GitHub request deterministic and offline-safe: the star count is
+  // not what these assertions are about.
+  test.beforeEach(async ({ page }) => {
+    await page.route("https://api.github.com/**", (route) =>
+      route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({ stargazers_count: 1234 }),
+      }),
+    );
+  });
+
   test("every route renders without runtime errors", async ({ page }) => {
     const pageErrors: string[] = [];
     const consoleErrors: string[] = [];
@@ -55,12 +67,17 @@ test.describe("app shell", () => {
   test("reduced motion toggle switches the motion attribute", async ({ page }) => {
     await page.goto("/#/");
     const html = page.locator("html");
+    const toggle = page.getByRole("button", { name: "减弱动效" });
 
+    await expect(toggle).toHaveAttribute("aria-pressed", "false");
     await expect(html).not.toHaveAttribute("data-dl-motion", "reduced");
-    await page.getByTestId("motion-toggle").click();
+
+    await toggle.click();
+    await expect(toggle).toHaveAttribute("aria-pressed", "true");
     await expect(html).toHaveAttribute("data-dl-motion", "reduced");
 
-    await page.getByTestId("motion-toggle").click();
+    await toggle.click();
+    await expect(toggle).toHaveAttribute("aria-pressed", "false");
     await expect(html).not.toHaveAttribute("data-dl-motion", "reduced");
   });
 
@@ -69,5 +86,27 @@ test.describe("app shell", () => {
     await page.getByRole("link", { name: "Button", exact: true }).first().click();
     await expect(page).toHaveURL(/#\/components\/button$/);
     await expect(page.getByRole("heading", { level: 1, name: "Button" })).toBeVisible();
+  });
+
+  test("docs shell uses the library's own components", async ({ page }) => {
+    await page.goto("/#/");
+    await expect(page.locator(".topbar .dl-toggle")).toBeVisible();
+    await expect(page.locator(".topbar .dl-btn").first()).toBeVisible();
+    await expect(page.locator(".topbar .github-link")).toBeVisible();
+    await expect(page.locator(".sidebar .dl-scroll-area")).toHaveCount(1);
+    await expect(page.locator(".study.dl-card")).toBeVisible();
+
+    await page.goto("/#/motion");
+    await expect(page.locator(".dl-slider")).toHaveCount(2);
+    await expect(page.locator('input[type="range"]')).toHaveCount(0);
+
+    await page.goto("/#/components");
+    await expect(page.locator(".component-card .dl-card")).toHaveCount(
+      await page.locator(".component-card").count(),
+    );
+
+    await page.goto("/#/performance");
+    await expect(page.locator(".budget__item.dl-card")).toHaveCount(3);
+    await expect(page.locator(".dl-progress")).toHaveCount(3);
   });
 });

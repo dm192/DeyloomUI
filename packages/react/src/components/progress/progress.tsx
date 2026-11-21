@@ -44,6 +44,7 @@ export function Progress(props: ProgressProps) {
   } = props;
 
   const reducedMotion = useDeyloomReducedMotion();
+  const labelId = React.useId();
   const safeMax = max > 0 ? max : 100;
   const clamped =
     value !== undefined && !Number.isNaN(value)
@@ -51,12 +52,20 @@ export function Progress(props: ProgressProps) {
       : null;
   const isIndeterminate = clamped === null;
   const percent = clamped === null ? 0 : (clamped / safeMax) * 100;
+  // A visible label is useless unless it names the progressbar for assistive
+  // tech; wire it through `aria-labelledby` unless the caller overrides.
+  const labelledBy =
+    rootProps["aria-labelledby"] ?? (label !== undefined ? labelId : undefined);
 
   return (
     <div className={cn("dl-progress", className)} data-size={size} data-tone={tone}>
       {label !== undefined || showValue ? (
         <div className="dl-progress__meta">
-          {label !== undefined ? <span className="dl-progress__label">{label}</span> : null}
+          {label !== undefined ? (
+            <span id={labelId} className="dl-progress__label">
+              {label}
+            </span>
+          ) : null}
           {showValue && !isIndeterminate ? (
             <span className="dl-progress__value" aria-hidden="true">
               {Math.round(percent)}%
@@ -70,6 +79,7 @@ export function Progress(props: ProgressProps) {
         value={clamped}
         max={safeMax}
         {...rootProps}
+        aria-labelledby={labelledBy}
       >
         {isIndeterminate ? (
           <span className="dl-progress__indeterminate dl-anim-loop" aria-hidden="true" />

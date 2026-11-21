@@ -118,9 +118,11 @@ tweens.exit;    // 140ms，退场一律不回弹
 packages/react      @deyloom/react —— 可发布包（源码、样式、单测）
 apps/docs           文档站（Vite 8 + React，源码别名直连，无需先构建）
 brand               品牌资源（主标浅底/深底、深色锁版、单色版、图标）
-scripts             动效守卫 / 体积预算 / 产物冒烟
+scripts             动效守卫 / 体积预算 / 产物冒烟 / 视觉审计
 tests/e2e           Playwright：键盘、焦点、axe、响应式、减弱动效、帧采样、截图
 ```
+
+文档站自身就是一次吃狗粮：导航用 `Drawer` + `ScrollArea`、参数调节用 `Field` + `Slider`、开关用 `Toggle`、卡片/进度用 `Card` + `Progress`、浏览器提示用 `Tooltip`、通知用 `Toaster`；顶栏右上角是带实时 star 数的 GitHub 入口（`https://github.com/dm192/DeyloomUI`）。图标来自 Heroicons（仅文档站依赖，库内图标保持 16px 内联，避免给发布包增加体积）。
 
 常用命令（仓库根目录）：
 

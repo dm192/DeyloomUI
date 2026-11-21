@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Button, StaggerList, toast } from "@deyloom/react";
+import { Button, Card, Progress, StaggerList, toast } from "@deyloom/react";
 import { PageHeader, Section } from "../ui/blocks";
 import { formatMs, useFrameMeter } from "../ui/use-frame-meter";
 import sizesRaw from "../generated/sizes.json";
@@ -35,24 +35,22 @@ function Budget(props: { label: string; used: number; budget: number; note: stri
   const usedRatio = ratio(props.used, props.budget);
   const over = props.used > props.budget;
   return (
-    <div className="budget__item">
+    <Card className="budget__item">
       <div className="budget__label">{props.label}</div>
       <div className="budget__value">
         {props.used > 0 ? kb(props.used) : "—"} <small>/ {kb(props.budget)}</small>
       </div>
-      <div className="meter__bar" style={{ marginTop: 10 }}>
-        <span
-          className="meter__fill"
-          style={{
-            transform: `scaleX(${usedRatio})`,
-            background: over ? "var(--dl-color-danger)" : "var(--dl-color-accent)",
-          }}
-        />
-      </div>
+      <Progress
+        className="budget__progress"
+        aria-label={props.label}
+        value={usedRatio * 100}
+        size="sm"
+        tone={over ? "danger" : "accent"}
+      />
       <div className="budget__label" style={{ marginTop: 8 }}>
         {props.note}
       </div>
-    </div>
+    </Card>
   );
 }
 

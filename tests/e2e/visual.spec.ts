@@ -27,6 +27,17 @@ async function shot(page: Page, name: string) {
 }
 
 test.describe("visual captures", () => {
+  // Deterministic star count: the GitHub entry must look the same on every run.
+  test.beforeEach(async ({ page }) => {
+    await page.route("https://api.github.com/**", (route) =>
+      route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({ stargazers_count: 1234 }),
+      }),
+    );
+  });
+
   test("home, light and dark", async ({ page }) => {
     await open(page, "/#/");
     await expect(page.locator("main h1").first()).toBeVisible();
@@ -94,9 +105,14 @@ test.describe("visual captures", () => {
     }
   });
 
-  test("mobile home", async ({ page }) => {
+  test("mobile home and navigation drawer", async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await open(page, "/#/");
     await shot(page, "mobile-home");
+
+    await page.getByRole("button", { name: /打开目录/ }).click();
+    await expect(page.getByRole("dialog", { name: "文档目录" })).toBeVisible();
+    await page.waitForTimeout(300);
+    await shot(page, "mobile-drawer");
   });
 });

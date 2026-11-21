@@ -1,3 +1,4 @@
+import { Card } from "@deyloom/react";
 import { demoGroups, demoBySlug } from "../demos";
 import { ComponentDemos, PageHeader, PropsTable, Section } from "../ui/blocks";
 
@@ -15,8 +16,10 @@ export function ComponentsIndexPage() {
             <div className="component-grid">
               {group.demos.map((demo) => (
                 <a className="component-card" key={demo.slug} href={`#/components/${demo.slug}`}>
-                  <span className="component-card__title">{demo.title}</span>
-                  <span className="component-card__summary">{demo.summary}</span>
+                  <Card interactive className="component-card__surface">
+                    <span className="component-card__title">{demo.title}</span>
+                    <span className="component-card__summary">{demo.summary}</span>
+                  </Card>
                 </a>
               ))}
             </div>

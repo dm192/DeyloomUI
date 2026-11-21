@@ -1,6 +1,14 @@
 import * as React from "react";
 import { m } from "motion/react";
-import { Button, springs, stagger, useDeyloomReducedMotion } from "@deyloom/react";
+import { ArrowPathIcon, PlayIcon } from "@heroicons/react/24/outline";
+import {
+  Button,
+  Field,
+  Slider,
+  springs,
+  stagger,
+  useDeyloomReducedMotion,
+} from "@deyloom/react";
 import { PageHeader, Section } from "../ui/blocks";
 
 const SPRING_ORDER = ["press", "snappy", "soft", "gentle"] as const;
@@ -32,7 +40,11 @@ function SpringTuner() {
           />
         </div>
         <div style={{ display: "flex", gap: 8, marginTop: 14 }}>
-          <Button variant="outline" onClick={() => setFired((value) => !value)}>
+          <Button
+            variant="outline"
+            onClick={() => setFired((value) => !value)}
+            startIcon={<PlayIcon className="docs-icon" />}
+          >
             {fired ? "复位" : "发射"}
           </Button>
           <Button
@@ -41,6 +53,7 @@ function SpringTuner() {
               setStiffness(320);
               setDamping(30);
             }}
+            startIcon={<ArrowPathIcon className="docs-icon" />}
           >
             恢复默认
           </Button>
@@ -48,34 +61,26 @@ function SpringTuner() {
       </div>
 
       <div className="spring-lab__controls">
-        <label className="slider-field">
-          <span className="slider-field__head">
-            刚度 stiffness
-            <output>{stiffness}</output>
-          </span>
-          <input
-            type="range"
+        <Field label="刚度 stiffness">
+          <Slider
             min={80}
             max={900}
             step={10}
-            value={stiffness}
-            onChange={(event) => setStiffness(Number(event.currentTarget.value))}
+            value={[stiffness]}
+            onValueChange={(next) => setStiffness(next[0] ?? stiffness)}
+            showValue
           />
-        </label>
-        <label className="slider-field">
-          <span className="slider-field__head">
-            阻尼 damping
-            <output>{damping}</output>
-          </span>
-          <input
-            type="range"
+        </Field>
+        <Field label="阻尼 damping">
+          <Slider
             min={5}
             max={80}
             step={1}
-            value={damping}
-            onChange={(event) => setDamping(Number(event.currentTarget.value))}
+            value={[damping]}
+            onValueChange={(next) => setDamping(next[0] ?? damping)}
+            showValue
           />
-        </label>
+        </Field>
         <p style={{ fontSize: 12, color: "var(--dl-color-ink-subtle)", margin: 0 }}>
           阻尼低于临界值时会出现回弹；库内所有退场动画改用 tween，避免"弹回去"看起来像出错。
         </p>
@@ -105,7 +110,12 @@ function SpringFamily() {
         ))}
       </div>
       <div style={{ display: "flex", gap: 8, marginTop: 14 }}>
-        <Button size="sm" variant="outline" onClick={() => setFired((value) => !value)}>
+        <Button
+          size="sm"
+          variant="outline"
+          onClick={() => setFired((value) => !value)}
+          startIcon={<PlayIcon className="docs-icon" />}
+        >
           {fired ? "全部复位" : "同时发射"}
         </Button>
       </div>
@@ -132,6 +142,7 @@ function StaggerSpecimen() {
             setItems(Array.from({ length: 6 }, (_, index) => index + 1));
             setRun((value) => value + 1);
           }}
+          startIcon={<ArrowPathIcon className="docs-icon" />}
         >
           重播交错
         </Button>

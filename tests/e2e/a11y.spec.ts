@@ -60,4 +60,13 @@ test.describe("accessibility", () => {
     await page.getByTestId("harness").waitFor();
     await audit(page);
   });
+
+  test("mobile navigation drawer is accessible", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto("/#/");
+    await page.locator("main h1").first().waitFor();
+    await page.getByRole("button", { name: /打开目录/ }).click();
+    await expect(page.getByRole("dialog", { name: "文档目录" })).toBeVisible();
+    await audit(page);
+  });
 });

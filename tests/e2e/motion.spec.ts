@@ -44,7 +44,7 @@ test.describe("motion degradation", () => {
 
     expect(await readMaxDuration()).toBeGreaterThan(0.01);
 
-    await page.getByTestId("motion-toggle").click();
+    await page.getByRole("button", { name: "减弱动效" }).click();
     expect(await readMaxDuration()).toBeLessThan(0.01);
   });
 

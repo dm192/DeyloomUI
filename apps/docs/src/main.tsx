@@ -1,6 +1,6 @@
 import * as React from "react";
 import { createRoot } from "react-dom/client";
-import { DeyloomProvider } from "@deyloom/react";
+import { DeyloomProvider, TooltipProvider } from "@deyloom/react";
 import "@fontsource-variable/inter";
 import "@deyloom/react/styles.css";
 import "./styles/docs.css";
@@ -12,7 +12,9 @@ if (!container) throw new Error("Missing #root container");
 createRoot(container).render(
   <React.StrictMode>
     <DeyloomProvider storageKey="deyloom-theme">
-      <App />
+      <TooltipProvider delayDuration={300}>
+        <App />
+      </TooltipProvider>
     </DeyloomProvider>
   </React.StrictMode>,
 );

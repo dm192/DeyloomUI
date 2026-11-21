@@ -1,6 +1,7 @@
 import * as React from "react";
 import {
   Button,
+  Card,
   NumberFlow,
   SegmentedControl,
   Slider,
@@ -50,7 +51,7 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="study" aria-label="组件组合示例">
+      <Card elevation={2} className="study" aria-label="组件组合示例">
         <div className="study__row">
           <span className="study__meta-label">分段</span>
           <SegmentedControl
@@ -104,7 +105,7 @@ export function HomePage() {
             触发 Toast
           </Button>
         </div>
-      </section>
+      </Card>
 
       <Section title="两条命令开始" hint="库本身零配置：一个 Provider、一份 CSS。">
         <pre className="codeblock dl-scrollbar">

@@ -1,7 +1,23 @@
 import * as React from "react";
-import { IconButton, Toaster, useDeyloomTheme, useDeyloom } from "@deyloom/react";
+import { Bars3Icon, MoonIcon, SunIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerTitle,
+  IconButton,
+  ScrollArea,
+  Toaster,
+  Toggle,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+  useDeyloom,
+  useDeyloomTheme,
+} from "@deyloom/react";
 import { demoGroups } from "./demos";
 import { useRoute, type Route } from "./router";
+import { GitHubLink } from "./ui/GitHubLink";
 
 // Route-level code splitting keeps the first paint small: the home page ships
 // immediately, every other page is fetched on first visit.
@@ -29,34 +45,12 @@ const PerformancePage = React.lazy(() =>
   import("./pages/Performance").then((module) => ({ default: module.PerformancePage })),
 );
 
-function themeIcon(dark: boolean) {
-  return dark ? (
-    <svg viewBox="0 0 16 16" width={14} height={14} fill="none" aria-hidden="true">
-      <circle cx="8" cy="8" r="3.25" stroke="currentColor" strokeWidth="1.4" />
-      <path
-        d="M8 1.5v1.6M8 12.9v1.6M1.5 8h1.6M12.9 8h1.6M3.4 3.4l1.1 1.1M11.5 11.5l1.1 1.1M12.6 3.4l-1.1 1.1M4.5 11.5l-1.1 1.1"
-        stroke="currentColor"
-        strokeWidth="1.4"
-        strokeLinecap="round"
-      />
-    </svg>
-  ) : (
-    <svg viewBox="0 0 16 16" width={14} height={14} fill="none" aria-hidden="true">
-      <path
-        d="M13.2 9.6A5.6 5.6 0 0 1 6.4 2.8a5.6 5.6 0 1 0 6.8 6.8Z"
-        stroke="currentColor"
-        strokeWidth="1.4"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
 function TopBar(props: { route: Route; navOpen: boolean; onToggleNav: () => void }) {
   const { resolvedTheme, setTheme } = useDeyloomTheme();
   const { reducedMotion, setReducedMotion } = useDeyloom();
   const isDark = resolvedTheme === "dark";
   const motionReduced = reducedMotion === "always";
+  const themeLabel = isDark ? "切换到浅色主题" : "切换到深色主题";
 
   const link = (path: string, label: string) => {
     const active =
@@ -91,86 +85,111 @@ function TopBar(props: { route: Route; navOpen: boolean; onToggleNav: () => void
       </nav>
       <div className="topbar__spacer" />
       <div className="topbar__actions">
-        <button
-          type="button"
-          className="motion-toggle dl-focusable"
-          aria-pressed={motionReduced}
-          data-testid="motion-toggle"
-          onClick={() => setReducedMotion(motionReduced ? "user" : "always")}
+        <Toggle
+          pressed={motionReduced}
+          onPressedChange={(pressed) => setReducedMotion(pressed ? "always" : "user")}
+          variant="outline"
+          size="sm"
+          aria-label="减弱动效"
+          className="motion-toggle"
         >
           {motionReduced ? "动效已减弱" : "减弱动效"}
-        </button>
-        <IconButton
-          label={isDark ? "切换到浅色主题" : "切换到深色主题"}
-          variant="outline"
-          size="sm"
-          onClick={() => setTheme(isDark ? "light" : "dark")}
-        >
-          {themeIcon(isDark)}
-        </IconButton>
-        <IconButton
-          className="nav-toggle"
-          label={props.navOpen ? "关闭目录" : "打开目录"}
-          variant="outline"
-          size="sm"
-          aria-expanded={props.navOpen}
-          onClick={props.onToggleNav}
-        >
-          <svg viewBox="0 0 16 16" width={14} height={14} fill="none" aria-hidden="true">
-            <path d="M2.5 4.5h11M2.5 8h11M2.5 11.5h11" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
-          </svg>
-        </IconButton>
+        </Toggle>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <IconButton
+              label={themeLabel}
+              variant="outline"
+              size="sm"
+              onClick={() => setTheme(isDark ? "light" : "dark")}
+            >
+              {isDark ? (
+                <SunIcon className="docs-icon" />
+              ) : (
+                <MoonIcon className="docs-icon" />
+              )}
+            </IconButton>
+          </TooltipTrigger>
+          <TooltipContent>{themeLabel}</TooltipContent>
+        </Tooltip>
+        <GitHubLink />
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <IconButton
+              className="nav-toggle"
+              label={props.navOpen ? "关闭目录" : "打开目录"}
+              variant="outline"
+              size="sm"
+              aria-expanded={props.navOpen}
+              onClick={props.onToggleNav}
+            >
+              <Bars3Icon className="docs-icon" />
+            </IconButton>
+          </TooltipTrigger>
+          <TooltipContent>{props.navOpen ? "关闭目录" : "打开目录"}</TooltipContent>
+        </Tooltip>
       </div>
     </header>
   );
 }
 
-function Sidebar(props: { route: Route }) {
-  const pages: { path: string; label: string; match: Route["name"][] }[] = [
-    { path: "#/", label: "总览", match: ["home"] },
-    { path: "#/foundations", label: "设计变量", match: ["foundations"] },
-    { path: "#/motion", label: "动效实验室", match: ["motion"] },
-    { path: "#/performance", label: "性能", match: ["performance"] },
-  ];
+const DOC_PAGES: { path: string; label: string; match: Route["name"][] }[] = [
+  { path: "#/", label: "总览", match: ["home"] },
+  { path: "#/foundations", label: "设计变量", match: ["foundations"] },
+  { path: "#/motion", label: "动效实验室", match: ["motion"] },
+  { path: "#/performance", label: "性能", match: ["performance"] },
+];
 
+/** One navigation tree, shared by the sticky sidebar and the mobile drawer. */
+function SidebarNav(props: { route: Route; onNavigate?: () => void }) {
   return (
-    <aside className="sidebar dl-scrollbar" aria-label="文档目录">
-      <nav>
-        <div className="sidebar__group">
-          <p className="sidebar__label">文档</p>
-          {pages.map((page) => (
-            <a
-              key={page.path}
-              className="sidebar__link"
-              href={page.path}
-              aria-current={page.match.includes(props.route.name) ? "page" : undefined}
-            >
-              {page.label}
-            </a>
-          ))}
-        </div>
-        {demoGroups.map((group) =>
-          group.demos.length === 0 ? null : (
-            <div className="sidebar__group" key={group.id}>
-              <p className="sidebar__label">{group.label}</p>
-              {group.demos.map((demo) => (
-                <a
-                  key={demo.slug}
-                  className="sidebar__link"
-                  href={`#/components/${demo.slug}`}
-                  aria-current={
-                    props.route.name === "component" && props.route.slug === demo.slug
-                      ? "page"
-                      : undefined
-                  }
-                >
-                  {demo.title}
-                </a>
-              ))}
-            </div>
-          ),
-        )}
-      </nav>
+    <nav className="sidebar__nav">
+      <div className="sidebar__group">
+        <p className="sidebar__label">文档</p>
+        {DOC_PAGES.map((page) => (
+          <a
+            key={page.path}
+            className="sidebar__link"
+            href={page.path}
+            aria-current={page.match.includes(props.route.name) ? "page" : undefined}
+            onClick={props.onNavigate}
+          >
+            {page.label}
+          </a>
+        ))}
+      </div>
+      {demoGroups.map((group) =>
+        group.demos.length === 0 ? null : (
+          <div className="sidebar__group" key={group.id}>
+            <p className="sidebar__label">{group.label}</p>
+            {group.demos.map((demo) => (
+              <a
+                key={demo.slug}
+                className="sidebar__link"
+                href={`#/components/${demo.slug}`}
+                aria-current={
+                  props.route.name === "component" && props.route.slug === demo.slug
+                    ? "page"
+                    : undefined
+                }
+                onClick={props.onNavigate}
+              >
+                {demo.title}
+              </a>
+            ))}
+          </div>
+        ),
+      )}
+    </nav>
+  );
+}
+
+function Sidebar(props: { route: Route }) {
+  return (
+    <aside className="sidebar" aria-label="文档目录">
+      <ScrollArea className="sidebar__scroll" type="hover">
+        <SidebarNav route={props.route} />
+      </ScrollArea>
     </aside>
   );
 }
@@ -212,7 +231,7 @@ export function App() {
   const content = renderPage(route);
 
   return (
-    <div className="shell" data-nav-open={navOpen ? "true" : "false"}>
+    <div className="shell">
       <a className="skip-link" href="#main">
         跳到内容
       </a>
@@ -229,6 +248,24 @@ export function App() {
           </div>
         </main>
       </div>
+
+      <Drawer open={navOpen} onOpenChange={setNavOpen}>
+        <DrawerContent side="left" className="docs-nav-drawer">
+          <DrawerTitle className="dl-visually-hidden">文档目录</DrawerTitle>
+          <div className="docs-nav-drawer__header">
+            <span className="docs-nav-drawer__title">目录</span>
+            <DrawerClose asChild>
+              <IconButton label="关闭目录" variant="ghost" size="sm">
+                <XMarkIcon className="docs-icon" />
+              </IconButton>
+            </DrawerClose>
+          </div>
+          <ScrollArea className="docs-nav-drawer__scroll" type="hover">
+            <SidebarNav route={route} onNavigate={() => setNavOpen(false)} />
+          </ScrollArea>
+        </DrawerContent>
+      </Drawer>
+
       <Toaster position="bottom-right" closeButton />
     </div>
   );

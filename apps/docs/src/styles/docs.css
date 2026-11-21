@@ -153,34 +153,50 @@ p {
   gap: var(--dl-space-2);
 }
 
-.motion-toggle {
+/* Heroicons render without width/height attributes so CSS owns the size. */
+.docs-icon {
+  inline-size: 16px;
+  block-size: 16px;
+}
+
+/* ---- github link --------------------------------------------------------- */
+.github-link__mark {
+  inline-size: 15px;
+  block-size: 15px;
+}
+
+.github-link__count {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  height: 30px;
-  padding-inline: 10px;
-  border: 1px solid var(--dl-color-border);
-  border-radius: var(--dl-radius-xs);
-  background: var(--dl-color-surface);
+  gap: 4px;
   color: var(--dl-color-ink-muted);
-  font: inherit;
   font-size: var(--dl-text-xs);
-  cursor: pointer;
-  transition:
-    background-color var(--dl-dur-2) var(--dl-ease-out),
-    border-color var(--dl-dur-2) var(--dl-ease-out),
-    color var(--dl-dur-2) var(--dl-ease-out);
+  font-variant-numeric: tabular-nums;
 }
 
-.motion-toggle:hover {
-  background: var(--dl-color-surface-inset);
-  color: var(--dl-color-ink);
+.github-link__star {
+  inline-size: 13px;
+  block-size: 13px;
+  color: var(--dl-color-warning);
 }
 
-.motion-toggle[aria-pressed="true"] {
-  border-color: color-mix(in oklch, var(--dl-color-accent) 50%, var(--dl-color-border));
-  background: var(--dl-color-accent-soft);
-  color: var(--dl-color-accent-soft-ink);
+@media (max-width: 720px) {
+  .github-link__count {
+    display: none;
+  }
+}
+
+/* At phone widths the action cluster (toggle + theme + GitHub + menu) plus the
+   wordmark is wider than 360px, so tighten the bar itself. */
+@media (max-width: 480px) {
+  .topbar {
+    gap: var(--dl-space-2);
+    padding-inline: var(--dl-space-5);
+  }
+
+  .brand__version {
+    display: none;
+  }
 }
 
 /* ---- layout -------------------------------------------------------------- */
@@ -195,10 +211,49 @@ p {
   position: sticky;
   top: 56px;
   height: calc(100vh - 56px);
-  overflow-y: auto;
-  padding: 24px 16px 48px;
+  overflow: hidden;
   border-right: 1px solid var(--dl-color-border);
-  scrollbar-width: thin;
+}
+
+.sidebar__scroll {
+  block-size: 100%;
+}
+
+.sidebar__nav {
+  padding: 24px 16px 48px;
+}
+
+/* ---- mobile navigation drawer ------------------------------------------- */
+/* The panel surface, focus trap, Esc and focus return come from the library
+   Drawer; docs only overrides its padding, width and content layout. */
+.docs-nav-drawer {
+  inline-size: min(88vw, 320px);
+  padding: 0;
+  gap: 0;
+  border-start-start-radius: 0;
+  border-end-start-radius: 0;
+  border-start-end-radius: var(--dl-radius-lg);
+  border-end-end-radius: var(--dl-radius-lg);
+}
+
+.docs-nav-drawer__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--dl-space-4);
+  padding: var(--dl-space-4) var(--dl-space-4) var(--dl-space-2) var(--dl-space-6);
+  border-bottom: 1px solid var(--dl-color-border);
+}
+
+.docs-nav-drawer__title {
+  font-size: var(--dl-text-sm);
+  font-weight: var(--dl-weight-semibold);
+  color: var(--dl-color-ink);
+}
+
+.docs-nav-drawer__scroll {
+  flex: 1 1 auto;
+  min-block-size: 0;
 }
 
 .sidebar__group + .sidebar__group {
@@ -333,13 +388,10 @@ p {
   text-decoration: none;
 }
 
+/* Surface/border/shadow come from the library Card; docs only sets rhythm. */
 .study {
   margin-top: 48px;
   padding: 22px;
-  border-radius: var(--dl-radius-lg);
-  border: 1px solid var(--dl-color-border);
-  background: var(--dl-color-surface);
-  box-shadow: var(--dl-shadow-2), var(--dl-edge);
 }
 
 .study__row {
@@ -618,25 +670,13 @@ p {
   gap: 18px;
 }
 
+/* Card owns the surface, border, radius and shadow. */
 .elevation-card {
   display: grid;
   place-items: center;
-  height: 108px;
-  border-radius: var(--dl-radius-md);
-  background: var(--dl-color-surface-raised);
-  border: 1px solid var(--dl-color-border);
+  block-size: 108px;
   font-size: var(--dl-text-sm);
   color: var(--dl-color-ink-muted);
-}
-
-.elevation-card[data-level="1"] {
-  box-shadow: var(--dl-shadow-1), var(--dl-edge);
-}
-.elevation-card[data-level="2"] {
-  box-shadow: var(--dl-shadow-2), var(--dl-edge);
-}
-.elevation-card[data-level="3"] {
-  box-shadow: var(--dl-shadow-3), var(--dl-edge);
 }
 
 .radius-row {
@@ -816,29 +856,6 @@ p {
   gap: 14px;
 }
 
-.slider-field {
-  display: grid;
-  gap: 6px;
-}
-
-.slider-field__head {
-  display: flex;
-  justify-content: space-between;
-  font-size: var(--dl-text-xs);
-  color: var(--dl-color-ink-muted);
-}
-
-.slider-field__head output {
-  font-family: var(--dl-font-mono);
-  color: var(--dl-color-ink);
-  font-variant-numeric: tabular-nums;
-}
-
-.slider-field input[type="range"] {
-  width: 100%;
-  accent-color: var(--dl-color-accent);
-}
-
 .meter {
   display: grid;
   gap: 8px;
@@ -915,9 +932,10 @@ p {
 .budget__item {
   flex: 1 1 200px;
   padding: 14px 16px;
-  border: 1px solid var(--dl-color-border);
-  border-radius: var(--dl-radius-md);
-  background: var(--dl-color-surface);
+}
+
+.budget__progress {
+  margin-top: 10px;
 }
 
 .budget__label {
@@ -954,24 +972,19 @@ p {
 }
 
 .component-card {
-  display: grid;
-  gap: 6px;
-  padding: 16px;
-  border: 1px solid var(--dl-color-border);
-  border-radius: var(--dl-radius-md);
-  background: var(--dl-color-surface-raised);
-  box-shadow: var(--dl-shadow-1), var(--dl-edge);
+  display: block;
+  block-size: 100%;
   text-decoration: none;
   color: var(--dl-color-ink);
-  transition:
-    background-color var(--dl-dur-2) var(--dl-ease-out),
-    border-color var(--dl-dur-2) var(--dl-ease-out),
-    transform var(--dl-dur-2) var(--dl-ease-out);
+  border-radius: var(--dl-radius-md);
 }
 
-.component-card:hover {
-  border-color: var(--dl-color-border-strong);
-  transform: translateY(-1px);
+.component-card__surface {
+  block-size: 100%;
+  padding: 16px;
+  display: grid;
+  gap: 6px;
+  align-content: start;
 }
 
 .component-card:focus-visible {
@@ -1220,17 +1233,6 @@ p {
 
   .sidebar {
     display: none;
-  }
-
-  .shell[data-nav-open="true"] .sidebar {
-    display: block;
-    position: fixed;
-    z-index: 50;
-    inset: 56px 0 0;
-    height: auto;
-    background: var(--dl-color-bg);
-    border-right: 0;
-    padding: 20px 20px 64px;
   }
 
   .main {

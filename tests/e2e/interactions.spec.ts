@@ -179,7 +179,8 @@ test.describe("scroll coverage", () => {
   test("ScrollArea renders a themed thumb and a focusable viewport", async ({ page }) => {
     await page.goto("/#/components/scroll-area");
     await page.locator("main h1").first().waitFor();
-    const area = page.locator(".dl-scroll-area").first();
+    // Scope to the page content: the docs sidebar is itself a ScrollArea.
+    const area = page.locator("main .dl-scroll-area").first();
     await area.scrollIntoViewIfNeeded();
     await area.hover();
     await page.waitForTimeout(300);

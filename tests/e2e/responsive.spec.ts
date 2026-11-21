@@ -19,28 +19,40 @@ test.describe("responsive layout", () => {
     });
   }
 
-  test("mobile navigation opens and closes", async ({ page }) => {
+  test("mobile navigation opens in the library Drawer and closes on navigate", async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto("/#/");
 
     const toggle = page.getByRole("button", { name: /打开目录/ });
     await expect(toggle).toBeVisible();
 
-    const sidebar = page.getByRole("complementary", { name: "文档目录" });
-    await expect(sidebar).toBeHidden();
+    const drawer = page.getByRole("dialog", { name: "文档目录" });
+    await expect(drawer).toBeHidden();
 
     await toggle.click();
-    await expect(sidebar).toBeVisible();
+    await expect(drawer).toBeVisible();
 
-    await sidebar.getByRole("link", { name: "设计变量" }).click();
+    await drawer.getByRole("link", { name: "设计变量" }).click();
     await expect(page).toHaveURL(/#\/foundations$/);
-    await expect(sidebar).toBeHidden();
+    await expect(drawer).toBeHidden();
   });
 
-  test("desktop shows the sidebar without a toggle", async ({ page }) => {
+  test("mobile drawer closes on Escape", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto("/#/");
+    await page.getByRole("button", { name: /打开目录/ }).click();
+
+    const drawer = page.getByRole("dialog", { name: "文档目录" });
+    await expect(drawer).toBeVisible();
+    await page.keyboard.press("Escape");
+    await expect(drawer).toBeHidden();
+  });
+
+  test("desktop shows the sticky sidebar without a toggle", async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto("/#/");
     const sidebar = page.getByRole("complementary", { name: "文档目录" });
     await expect(sidebar).toBeVisible();
+    await expect(page.getByRole("button", { name: /打开目录/ })).toBeHidden();
   });
 });

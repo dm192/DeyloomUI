@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Button, ScrollArea, useDeyloomTheme } from "@deyloom/react";
+import { Button, Card, ScrollArea, useDeyloomTheme } from "@deyloom/react";
 import { PageHeader, Section } from "../ui/blocks";
 
 /* ------------------------------------------------------------------ colours */
@@ -232,15 +232,15 @@ export function FoundationsPage() {
         hint="三层低透明阴影 + 1px 内高光构成深度；深色模式改用更紧的黑色阴影与更弱的内高光。"
       >
         <div className="elevation-row">
-          <div className="elevation-card" data-level="1">
+          <Card elevation={1} className="elevation-card">
             shadow-1 · 卡片
-          </div>
-          <div className="elevation-card" data-level="2">
+          </Card>
+          <Card elevation={2} className="elevation-card">
             shadow-2 · 浮层
-          </div>
-          <div className="elevation-card" data-level="3">
+          </Card>
+          <Card elevation={3} className="elevation-card">
             shadow-3 · 对话框
-          </div>
+          </Card>
         </div>
       </Section>
 

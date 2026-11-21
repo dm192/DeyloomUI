@@ -80,6 +80,15 @@ async function main() {
       },
       theme,
     );
+    // Deterministic and offline-safe: the star count is not part of the layout
+    // audit, and a hanging request would slow every navigation down.
+    await context.route("https://api.github.com/**", (route) =>
+      route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({ stargazers_count: 1234 }),
+      }),
+    );
     const page = await context.newPage();
     const errors = [];
     page.on("pageerror", (error) => errors.push(`pageerror: ${error.message}`));
