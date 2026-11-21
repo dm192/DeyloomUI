@@ -65,6 +65,19 @@ export const toastItem: Variants = {
   exit: { opacity: 0, scale: scales.exit, transition: tweens.exit },
 };
 
+/**
+ * Toast entry that respects where the stack is anchored: a stack pinned to the
+ * bottom of the screen grows upward, so its items rise; a top stack drops.
+ */
+export function toastStackItem(placement: "top" | "bottom"): Variants {
+  const offset = placement === "top" ? -distances.lg : distances.lg;
+  return {
+    initial: { opacity: 0, y: offset, scale: 0.97 },
+    animate: { opacity: 1, y: 0, scale: 1, transition: springs.snappy },
+    exit: { opacity: 0, scale: scales.exit, transition: tweens.exit },
+  };
+}
+
 /** Height-reveal helper for single-line disclosure (Field errors, hints). */
 export const revealRow: Variants = {
   initial: { opacity: 0, height: 0 },

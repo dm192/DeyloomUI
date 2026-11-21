@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Button, useDeyloomTheme } from "@deyloom/react";
+import { Button, ScrollArea, useDeyloomTheme } from "@deyloom/react";
 import { PageHeader, Section } from "../ui/blocks";
 
 /* ------------------------------------------------------------------ colours */
@@ -315,6 +315,58 @@ export function FoundationsPage() {
           {EASINGS.map((easing) => (
             <CurveCard key={easing.name} spec={easing} />
           ))}
+        </div>
+      </Section>
+
+      <Section
+        title="滚动条"
+        hint="同一套 token 同时驱动原生滚动条与 ScrollArea；thumb 取 ink 的透明度，明暗自适应。"
+      >
+        <div className="scrollbar-demo">
+          <ScrollArea
+            label="滚动条示例"
+            maxHeight={168}
+            style={{
+              border: "1px solid var(--dl-color-border)",
+              borderRadius: "var(--dl-radius-md)",
+              background: "var(--dl-color-surface)",
+            }}
+          >
+            <div style={{ padding: "var(--dl-space-2) var(--dl-space-4)" }}>
+              {Array.from({ length: 12 }, (_, index) => (
+                <div
+                  key={index}
+                  style={{
+                    padding: "7px 0",
+                    borderBottom: "1px solid var(--dl-color-border)",
+                    fontSize: "var(--dl-text-sm)",
+                    color: "var(--dl-color-ink-muted)",
+                  }}
+                >
+                  可滚动内容 {index + 1}
+                </div>
+              ))}
+            </div>
+          </ScrollArea>
+
+          <dl className="scrollbar-tokens">
+            <div>
+              <dt>--dl-scrollbar-size</dt>
+              <dd>10px</dd>
+            </div>
+            <div>
+              <dt>--dl-scrollbar-thumb</dt>
+              <dd>ink 22%</dd>
+            </div>
+            <div>
+              <dt>--dl-scrollbar-thumb-hover</dt>
+              <dd>ink 36%</dd>
+            </div>
+            <div>
+              <dt>--dl-scrollbar-radius</dt>
+              <dd>full</dd>
+            </div>
+          </dl>
         </div>
       </Section>
 

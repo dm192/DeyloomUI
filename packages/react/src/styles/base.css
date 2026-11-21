@@ -19,6 +19,38 @@
     outline-offset: 2px;
   }
 
+  /* ---- scrollbars -------------------------------------------------------- */
+  /* One native scrollbar recipe for every scrollable surface in the library and
+     in consumer apps. Firefox honours the standard properties; Chromium/WebKit
+     get the pseudo-elements. The thumb is ink at low opacity, so it adapts to
+     both themes without a second token set. */
+  .dl-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: var(--dl-scrollbar-thumb) var(--dl-scrollbar-track);
+  }
+
+  .dl-scrollbar::-webkit-scrollbar {
+    width: var(--dl-scrollbar-size);
+    height: var(--dl-scrollbar-size);
+  }
+
+  .dl-scrollbar::-webkit-scrollbar-track,
+  .dl-scrollbar::-webkit-scrollbar-corner {
+    background: var(--dl-scrollbar-track);
+  }
+
+  .dl-scrollbar::-webkit-scrollbar-thumb {
+    border: 2px solid transparent;
+    border-radius: var(--dl-scrollbar-radius);
+    background: var(--dl-scrollbar-thumb);
+    background-clip: padding-box;
+  }
+
+  .dl-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: var(--dl-scrollbar-thumb-hover);
+    background-clip: padding-box;
+  }
+
   /* ---- surfaces ---------------------------------------------------------- */
   .dl-surface {
     background: var(--dl-color-surface);

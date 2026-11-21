@@ -19,5 +19,6 @@ export {
   popoverPanel,
   listItem,
   toastItem,
+  toastStackItem,
   revealRow,
 } from "./variants";

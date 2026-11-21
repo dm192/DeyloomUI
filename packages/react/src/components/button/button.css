@@ -1,4 +1,5 @@
 @layer dl.components {
+  /* dl-motion-allow: control-sized surface; the shadow shift is the hover cue. */
   .dl-btn {
     --_bg: transparent;
     --_fg: var(--dl-color-ink);

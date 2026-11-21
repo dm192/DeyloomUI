@@ -1048,6 +1048,47 @@ p {
   }
 }
 
+/* ---- scrollbars ---------------------------------------------------------- */
+.scrollbar-demo {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 220px;
+  gap: 18px;
+  align-items: start;
+}
+
+.scrollbar-tokens {
+  margin: 0;
+  display: grid;
+  gap: 8px;
+  font-size: var(--dl-text-xs);
+}
+
+.scrollbar-tokens div {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--dl-color-border);
+}
+
+.scrollbar-tokens dt {
+  font-family: var(--dl-font-mono);
+  color: var(--dl-color-ink-muted);
+  overflow-wrap: anywhere;
+}
+
+.scrollbar-tokens dd {
+  margin: 0;
+  color: var(--dl-color-ink-subtle);
+  white-space: nowrap;
+}
+
+@media (max-width: 720px) {
+  .scrollbar-demo {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 /* ---- brand assets -------------------------------------------------------- */
 .brand-grid {
   display: grid;

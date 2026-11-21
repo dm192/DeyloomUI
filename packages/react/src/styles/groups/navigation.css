@@ -6,5 +6,7 @@
 @import "../../components/navigation/card/card.css";
 @import "../../components/navigation/dropdown-menu/dropdown-menu.css";
 @import "../../components/navigation/popover/popover.css";
+@import "../../components/navigation/scroll-area/scroll-area.css";
+@import "../../components/navigation/separator/separator.css";
 @import "../../components/navigation/tabs/tabs.css";
 @import "../../components/navigation/tooltip/tooltip.css";

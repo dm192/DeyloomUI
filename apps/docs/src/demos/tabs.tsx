@@ -46,6 +46,31 @@ export const tabsDemo = defineDemos([
         ),
       },
       {
+        title: "面板高度过渡",
+        description: "面板高度不同时容器高度平滑过渡，下面的内容不会被瞬移。",
+        layout: "stretch",
+        render: () => (
+          <Tabs defaultValue="short">
+            <TabsList>
+              <TabsTrigger value="short">短面板</TabsTrigger>
+              <TabsTrigger value="tall">高面板</TabsTrigger>
+            </TabsList>
+            <TabsContent value="short">一行内容。</TabsContent>
+            <TabsContent value="tall">
+              <p style={{ margin: 0 }}>
+                面板内容更多时，容器会从上一块面板的高度平滑过渡到新高度。
+              </p>
+              <p style={{ margin: "8px 0 0" }}>
+                高度动画只作用于 Tabs 这一个容器，内部内容不参与布局动画。
+              </p>
+              <p style={{ margin: "8px 0 0" }}>
+                减弱动效时切换是瞬时的，不会出现等待。
+              </p>
+            </TabsContent>
+          </Tabs>
+        ),
+      },
+      {
         title: "受控与禁用",
         description: "受控时由父级决定当前值；禁用的标签无法获得焦点。",
         layout: "stretch",
@@ -94,7 +119,7 @@ export const tabsDemo = defineDemos([
     ],
     notes: [
       "指示块通过 ResizeObserver 测量，切换标签时用 snappy 弹簧滑动；测量不可用时自动退化为纯文字状态。",
-      "切换面板使用 AnimatePresence mode=\"wait\"，旧面板先做 140ms 淡出，避免内容叠在一起跳动。",
+      "面板切换只挂载当前面板，容器高度用 WAAPI 过渡；减弱动效时立即切换。",
     ],
   },
 ]);

@@ -1,0 +1,57 @@
+@layer dl.components {
+  .dl-scroll-area {
+    position: relative;
+    display: flex;
+    overflow: hidden;
+    inline-size: 100%;
+    min-inline-size: 0;
+    color: var(--dl-color-ink);
+    font-family: var(--dl-font-sans);
+  }
+
+  .dl-scroll-area__viewport {
+    inline-size: 100%;
+    block-size: 100%;
+    border-radius: inherit;
+    outline-offset: -1px;
+  }
+
+  .dl-scroll-area__viewport:focus-visible {
+    outline: 2px solid var(--dl-color-accent);
+    outline-offset: -1px;
+  }
+
+  /* ---- scrollbars -------------------------------------------------------- */
+  .dl-scroll-area__bar {
+    display: flex;
+    padding: 2px;
+    user-select: none;
+    touch-action: none;
+    transition: opacity var(--dl-dur-2) var(--dl-ease-out);
+  }
+
+  .dl-scroll-area__bar--vertical {
+    inline-size: var(--dl-scrollbar-size);
+  }
+
+  .dl-scroll-area__bar--horizontal {
+    flex-direction: column;
+    block-size: var(--dl-scrollbar-size);
+  }
+
+  .dl-scroll-area__thumb {
+    flex: 1 1 0%;
+    border-radius: var(--dl-scrollbar-radius);
+    background: var(--dl-scrollbar-thumb);
+    transition: background-color var(--dl-dur-2) var(--dl-ease-out);
+  }
+
+  .dl-scroll-area__bar:hover .dl-scroll-area__thumb,
+  .dl-scroll-area__thumb:hover {
+    background: var(--dl-scrollbar-thumb-hover);
+  }
+
+  .dl-scroll-area__corner {
+    background: transparent;
+  }
+}

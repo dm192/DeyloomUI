@@ -58,7 +58,7 @@ export function ComponentDemos(props: { demo: DemoEntry }) {
 
 export function PropsTable(props: { rows: DemoProp[] }) {
   return (
-    <div className="props-table-wrap">
+    <div className="props-table-wrap dl-scrollbar">
       <table className="props-table">
         <thead>
           <tr>

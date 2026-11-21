@@ -2,7 +2,8 @@ import * as React from "react";
 import { Toast as ToastPrimitive } from "radix-ui";
 import { AnimatePresence, m } from "motion/react";
 import { cn } from "../../lib/cn";
-import { toastItem } from "../../motion/variants";
+import { toastStackItem } from "../../motion/variants";
+import { useStackReorder } from "../../lib/use-layout-motion";
 import { CheckCircleIcon, InfoIcon, WarningIcon, XIcon } from "../../lib/icons";
 
 export type ToastVariant = "default" | "success" | "danger";
@@ -33,12 +34,16 @@ export interface ToastOptions {
 export interface ToasterProps {
   /** Corner the stack is anchored to. Defaults to `"bottom-right"`. */
   position?: ToasterPosition;
-  /** Milliseconds each toast stays visible. Defaults to `4500`. */
+  /** Milliseconds each toast stays visible. Defaults to `"4500"`. */
   duration?: number;
   /** Maximum number of visible toasts, oldest are evicted. Defaults to `5`. */
   max?: number;
   /** Renders a close button on every toast. Defaults to `false`. */
   closeButton?: boolean;
+  /** Accessible name for the close button. Defaults to `"Close"`. */
+  closeLabel?: string;
+  /** Accessible name of the live region. Defaults to `"Notifications"`. */
+  label?: string;
   className?: string;
 }
 
@@ -125,12 +130,15 @@ interface ToastItemProps {
   record: ToastRecord;
   duration: number;
   closeButton: boolean;
+  closeLabel: string;
+  placement: "top" | "bottom";
 }
 
 function ToastItem(props: ToastItemProps) {
-  const { record, duration, closeButton } = props;
+  const { record, duration, closeButton, closeLabel, placement } = props;
   const [paused, setPaused] = React.useState(false);
   const Icon = variantIcon[record.variant];
+  const hasCountdown = Number.isFinite(duration) && duration > 0;
 
   const handleOpenChange = React.useCallback(
     (open: boolean) => {
@@ -156,7 +164,7 @@ function ToastItem(props: ToastItemProps) {
         className="dl-toast"
         data-variant={record.variant}
         data-paused={paused ? "true" : undefined}
-        variants={toastItem}
+        variants={toastStackItem(placement)}
         initial="initial"
         animate="animate"
         exit="exit"
@@ -184,13 +192,16 @@ function ToastItem(props: ToastItemProps) {
           ) : null}
         </div>
         {closeButton ? (
-          <ToastPrimitive.Close className="dl-toast__close dl-focusable" aria-label="Close">
+          <ToastPrimitive.Close className="dl-toast__close dl-focusable" aria-label={closeLabel}>
             <XIcon />
           </ToastPrimitive.Close>
         ) : null}
         {/* Time left. Radix pauses its close timer on hover/focus/blur and tells
-            us through onPause/onResume, so the bar pauses in lockstep. */}
-        <span className="dl-toast__progress" style={progressStyle} aria-hidden="true" />
+            us through onPause/onResume, so the bar pauses in lockstep. A toast
+            without a finite duration simply has no countdown bar. */}
+        {hasCountdown ? (
+          <span className="dl-toast__progress" style={progressStyle} aria-hidden="true" />
+        ) : null}
       </m.div>
     </ToastPrimitive.Root>
   );
@@ -200,9 +211,10 @@ function ToastItem(props: ToastItemProps) {
  * Mount once near the app root. Owns the toast viewport, the live-region
  * behaviour Radix provides, and the position of the stack.
  *
- * There is no layout animation on the stack (that needs Motion's `domMax`
- * bundle): items enter and leave on `toastItem` transforms, while the reflow
- * after a removal is immediate. Deliberate trade-off for a light core package.
+ * The stack reflow is a FLIP pass driven by a MutationObserver: when a toast is
+ * added or removed, the remaining cards animate from their previous offset with
+ * a transform-only transition, so the stack never jumps. This works with the
+ * lightweight `domAnimation` bundle — no layout feature required.
  */
 export function Toaster(props: ToasterProps) {
   const {
@@ -210,16 +222,22 @@ export function Toaster(props: ToasterProps) {
     duration = 4500,
     max = 5,
     closeButton = false,
+    closeLabel = "Close",
+    label = "Notifications",
     className,
   } = props;
   const items = React.useSyncExternalStore(subscribe, getSnapshot, getSnapshot);
+  const viewportRef = React.useRef<HTMLOListElement | null>(null);
+  const placement: "top" | "bottom" = position.startsWith("top") ? "top" : "bottom";
 
   React.useEffect(() => {
     setToastLimit(max);
   }, [max]);
 
+  useStackReorder(viewportRef, { itemSelector: ".dl-toast__item" });
+
   return (
-    <ToastPrimitive.Provider duration={duration} label="Notifications">
+    <ToastPrimitive.Provider duration={duration} label={label}>
       <AnimatePresence initial={false}>
         {items.map((record) => (
           <ToastItem
@@ -227,11 +245,14 @@ export function Toaster(props: ToasterProps) {
             record={record}
             duration={record.duration ?? duration}
             closeButton={closeButton}
+            closeLabel={closeLabel}
+            placement={placement}
           />
         ))}
       </AnimatePresence>
       <ToastPrimitive.Viewport
-        className={cn("dl-toaster", `dl-toaster--${position}`, className)}
+        ref={viewportRef}
+        className={cn("dl-toaster", "dl-scrollbar", `dl-toaster--${position}`, className)}
       />
     </ToastPrimitive.Provider>
   );

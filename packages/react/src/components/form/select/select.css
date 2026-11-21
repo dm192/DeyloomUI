@@ -1,4 +1,5 @@
 @layer dl.components {
+  /* dl-motion-allow: control-sized trigger; one focus-ring transition per focus. */
   .dl-select-trigger {
     display: inline-flex;
     align-items: center;
@@ -87,9 +88,11 @@
   }
 
   .dl-select-content {
+    --_select-max-height: 320px;
+
     z-index: 60;
     min-inline-size: var(--radix-select-trigger-width);
-    max-block-size: var(--radix-select-content-available-height);
+    max-block-size: min(var(--radix-select-content-available-height), var(--_select-max-height));
   }
 
   .dl-select-content__panel {
@@ -104,9 +107,41 @@
   }
 
   .dl-select-viewport {
-    max-block-size: var(--radix-select-content-available-height);
+    /* 320px panel cap minus 16px panel padding and two 16px scroll buttons. */
+    max-block-size: min(
+      calc(var(--radix-select-content-available-height) - 48px),
+      calc(var(--_select-max-height) - 48px)
+    );
     overflow-y: auto;
-    scrollbar-width: thin;
+  }
+
+  /* Shown by Radix only when the list overflows. Radix hides the native
+     scrollbar inside the viewport, so these gradient fades are the scroll
+     affordance: they make it obvious that more options exist above/below. */
+  .dl-select-scroll-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    block-size: var(--dl-space-5);
+    color: var(--dl-color-ink-muted);
+    cursor: default;
+  }
+
+  .dl-select-scroll-button--up {
+    background: linear-gradient(to bottom, transparent, var(--dl-color-surface-raised) 75%);
+  }
+
+  .dl-select-scroll-button--down {
+    background: linear-gradient(to top, transparent, var(--dl-color-surface-raised) 75%);
+  }
+
+  .dl-select-scroll-button__icon {
+    inline-size: var(--dl-space-3);
+    block-size: var(--dl-space-3);
+  }
+
+  .dl-select-scroll-button--up .dl-select-scroll-button__icon {
+    rotate: 180deg;
   }
 
   .dl-select-item {

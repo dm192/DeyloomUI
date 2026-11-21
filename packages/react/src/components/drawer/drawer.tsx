@@ -164,7 +164,7 @@ export function DrawerContent(props: DrawerContentProps) {
           </DialogPrimitive.Overlay>
           <DialogPrimitive.Content asChild forceMount {...contentProps}>
             <m.div
-              className={cn("dl-drawer__panel", "dl-focusable", className)}
+              className={cn("dl-drawer__panel", "dl-focusable", "dl-scrollbar", className)}
               data-side={side}
               variants={panelVariants[side]}
               initial="initial"

@@ -1,0 +1,25 @@
+@layer dl.components {
+  /* A divider is structure, not decoration: it is a flat 1px line with no
+     shadow and no transition, so it can be dropped into any stack without
+     changing the material language of its neighbours. */
+  .dl-separator {
+    flex: 0 0 auto;
+    margin: 0;
+    border: 0;
+    background: var(--dl-color-border);
+  }
+
+  .dl-separator[data-orientation="horizontal"] {
+    inline-size: 100%;
+    block-size: 1px;
+  }
+
+  /* Vertical rules take their height from the parent. `align-self: stretch`
+     makes that explicit in flex layouts; a fixed block-size would break as soon
+     as the surrounding row grows. */
+  .dl-separator[data-orientation="vertical"] {
+    inline-size: 1px;
+    block-size: auto;
+    align-self: stretch;
+  }
+}

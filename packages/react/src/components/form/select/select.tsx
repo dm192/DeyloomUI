@@ -187,9 +187,15 @@ export function SelectContent(props: SelectContentProps) {
           animate={state ? (state.panelPresent ? "animate" : "exit") : "animate"}
           onAnimationComplete={state?.onPanelAnimationComplete}
         >
+          <SelectPrimitive.ScrollUpButton className="dl-select-scroll-button dl-select-scroll-button--up">
+            <ChevronDownIcon className="dl-select-scroll-button__icon" />
+          </SelectPrimitive.ScrollUpButton>
           <SelectPrimitive.Viewport className="dl-select-viewport">
             {children}
           </SelectPrimitive.Viewport>
+          <SelectPrimitive.ScrollDownButton className="dl-select-scroll-button dl-select-scroll-button--down">
+            <ChevronDownIcon className="dl-select-scroll-button__icon" />
+          </SelectPrimitive.ScrollDownButton>
         </m.div>
       </SelectPrimitive.Content>
     </SelectPrimitive.Portal>

@@ -107,7 +107,7 @@ export function HomePage() {
       </section>
 
       <Section title="两条命令开始" hint="库本身零配置：一个 Provider、一份 CSS。">
-        <pre className="codeblock">
+        <pre className="codeblock dl-scrollbar">
           <code>
             <span className="tok-key">npm</span> i @deyloom/react{"\n\n"}
             <span className="tok-key">import</span> {"{ DeyloomProvider, Button }"} from

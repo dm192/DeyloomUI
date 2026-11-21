@@ -59,8 +59,10 @@ tweens.exit;    // 140ms，退场一律不回弹
 | 浮层进入 | `opacity + scale(.96) + y(8)` | `springs.snappy` |
 | 浮层退出 | 只回 `scale(.98) + y(4)` | 140ms tween |
 | 列表交错 | 每项 35ms，最多 8 项 | `stagger.base` |
+| Tabs 面板换高 | 容器高度过渡（WAAPI，单元素） | 220ms `--dl-ease-out` |
+| Toast 堆栈重排 | FLIP，只动 transform | 200ms `--dl-ease-out` |
 
-`prefers-reduced-motion: reduce` 时 CSS 时长折叠到 `0.01ms`（保留非零值，`transitionend` 仍会触发），循环动画替换为静态状态，Motion 侧关闭位移类动画、保留透明度。
+`prefers-reduced-motion: reduce` 时 CSS 时长折叠到 `0.01ms`（保留非零值，`transitionend` 仍会触发），循环动画替换为静态状态，Motion 侧关闭位移类动画、保留透明度；高度过渡与堆栈 FLIP 直接跳过。
 
 ## 主题
 
@@ -70,6 +72,7 @@ tweens.exit;    // 140ms，退场一律不回弹
 
 - `[data-dl-theme="light" | "dark"]` 可挂在任意祖先做局部换肤；不写时跟随系统。
 - 所有颜色、间距、圆角、字号、时长都是 `--dl-*` 变量，见 `packages/react/src/styles/tokens.css`。
+- 滚动条同样走 token：`--dl-scrollbar-size` / `-thumb` / `-thumb-hover` / `-radius`。原生滚动容器加 `.dl-scrollbar` 类即可；需要自绘滚动条时用 `ScrollArea`。
 - Portal 内容（对话框、菜单、Toast）渲染到 `document.body`，因此 token 定义在 `:root`；局部换肤不会自动作用于 Portal，这是有意的取舍。
 
 ## 组件
@@ -77,9 +80,9 @@ tweens.exit;    // 140ms，退场一律不回弹
 | 分组 | 组件 |
 | --- | --- |
 | 基础 | `Button` `IconButton` |
-| 表单 | `Field` `Input` `Textarea` `Checkbox` `RadioGroup` `Switch` `Slider` `Select` `SegmentedControl` |
-| 导航与容器 | `Tabs` `Accordion` `Card` `Badge` `Avatar` `Tooltip` `Popover` `DropdownMenu` |
-| 覆盖层与反馈 | `Dialog` `Drawer` `Toaster` / `toast()` `Progress` `Skeleton` |
+| 表单 | `Field` `Input` `Textarea` `Checkbox` `RadioGroup` `Switch` `Slider` `Select` `SegmentedControl` `Toggle` `ToggleGroup` |
+| 导航与容器 | `Tabs` `Accordion` `Card` `Badge` `Avatar` `Tooltip` `Popover` `DropdownMenu` `ScrollArea` `Separator` |
+| 覆盖层与反馈 | `Dialog` `AlertDialog` `Drawer` `HoverCard` `Toaster` / `toast()` `Progress` `Skeleton` |
 | 动效组件 | `StaggerList` `NumberFlow` `SpotlightCard` `BorderBeam` `Marquee` |
 | 动效变量 | `springs` `tweens` `scales` `distances` `stagger` `easings` + 共享 variants |
 
@@ -91,6 +94,7 @@ tweens.exit;    // 140ms，退场一律不回弹
 
 1. **动效守卫** `scripts/check-motion-css.mjs`
    - 禁止过渡 `width / height / margin / padding / top / left` 等布局属性；例外必须在源码里写 `/* dl-motion-allow: 原因 */`
+   - 过渡 `box-shadow` 必须写明理由（默认只允许小控件，Card 不再动画阴影）
    - `@keyframes` 同样禁止布局属性
    - `animation: … infinite` 必须挂在 `.dl-anim-loop` 上，保证 reduced-motion 能关掉
    - `will-change` 必须逐条说明理由
@@ -126,6 +130,7 @@ npm run dev          # 文档站 http://127.0.0.1:5173
 npm run build        # 构建库到 packages/react/dist
 npm run verify       # typecheck + 单测 + 构建 + 动效守卫 + 体积预算 + 产物冒烟 + 文档构建
 npm run e2e          # 构建后用 Playwright 跑全部 e2e（需本机 Chrome）
+npm run audit        # 视觉审计（先 build:docs + preview）：全部页面 × 明暗 × 桌面/移动截图 + 溢出/报错检查
 ```
 
 ## 品牌
@@ -139,7 +144,10 @@ npm run e2e          # 构建后用 Playwright 跑全部 e2e（需本机 Chrome�
 
 ## 已知限制
 
-- Drawer 无手势拖拽（需要 `domMax`，核心包保持 `domAnimation`）。
+- Drawer 无手势拖拽（需要 `domMax`，核心包保持 `domAnimation`）；Toast 堆叠重排与 Tabs 高度过渡用 WAAPI/FLIP 实现，同样不需要 `domMax`。
+- Tabs 切换只挂载当前面板，不再保留退场动画；换来的是容器高度平滑过渡，旧面板不会与新面板叠加撑高。
+- Select 隐藏视口原生滚动条（Radix 行为），改用上下渐隐滚动按钮 + 滚轮/键盘滚动；如需可见滚动条请套 `ScrollArea`。
+- 原生滚动条样式依赖 `scrollbar-color` / `::-webkit-scrollbar`，旧版 Firefox（<64）与 Safari（<18.2）会退回系统默认。
 - `NumberFlow` 只支持整数与常见 `Intl.NumberFormat` 选项；小数位滚动按格式串处理。
 - Breadcrumb、DatePicker、虚拟化表格不在本版本范围内。
 - 文档站是内部验证界面，不随包发布。

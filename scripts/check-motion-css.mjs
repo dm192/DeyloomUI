@@ -216,6 +216,14 @@ for (const file of collectCss(cssRoot)) {
             message: `selector "${rule.selector}" transitions layout property "${property}"`,
           });
         }
+        // Repainting a shadow every frame is only acceptable on small controls.
+        if (property === "box-shadow" && !allowed) {
+          violations.push({
+            file: relative,
+            line: lineOf(starts, rule.start + (match.index ?? 0)),
+            message: `selector "${rule.selector}" transitions box-shadow without a dl-motion-allow rationale (paint on large surfaces is not allowed)`,
+          });
+        }
       }
     }
 

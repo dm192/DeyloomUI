@@ -1,53 +1,53 @@
 {
-  "generatedAt": "2026-11-20T15:52:32.532Z",
+  "generatedAt": "2026-11-21T01:55:30.432Z",
   "budgets": {
     "jsGzip": 24576,
     "cssGzip": 11264
   },
   "totals": {
-    "jsGzip": 17700,
-    "cssGzip": 8911
+    "jsGzip": 20933,
+    "cssGzip": 9833
   },
   "entries": [
     {
-      "file": "chunk-4RCGXJK3.cjs",
-      "raw": 3970,
-      "gzip": 1234
+      "file": "chunk-IIY7PTU5.cjs",
+      "raw": 4331,
+      "gzip": 1318
     },
     {
-      "file": "chunk-CZYW5MSU.js",
-      "raw": 3624,
-      "gzip": 1171
+      "file": "chunk-QEOE5G6M.js",
+      "raw": 3960,
+      "gzip": 1251
     },
     {
       "file": "index.cjs",
-      "raw": 98004,
-      "gzip": 16922
+      "raw": 117204,
+      "gzip": 20071
     },
     {
       "file": "index.js",
-      "raw": 88512,
-      "gzip": 16308
+      "raw": 106394,
+      "gzip": 19457
     },
     {
       "file": "motion.cjs",
-      "raw": 2226,
-      "gzip": 385
+      "raw": 2365,
+      "gzip": 393
     },
     {
       "file": "motion.js",
-      "raw": 298,
-      "gzip": 221
+      "raw": 314,
+      "gzip": 225
     },
     {
       "file": "styles.css",
-      "raw": 61378,
-      "gzip": 8911
+      "raw": 70062,
+      "gzip": 9833
     },
     {
       "file": "tokens.css",
-      "raw": 7163,
-      "gzip": 1433
+      "raw": 7757,
+      "gzip": 1500
     }
   ]
 }

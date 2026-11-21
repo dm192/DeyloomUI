@@ -21,6 +21,7 @@
     "guard": "node scripts/check-motion-css.mjs",
     "size": "node scripts/check-size.mjs",
     "smoke": "node scripts/smoke-package.mjs",
+    "audit": "node scripts/audit-visual.mjs",
     "verify": "npm run typecheck && npm run test && npm run build && npm run guard && npm run size && npm run smoke && npm run build:docs",
     "e2e": "npm run build && npm run size && npm run build:docs && playwright test",
     "e2e:headed": "playwright test --headed"

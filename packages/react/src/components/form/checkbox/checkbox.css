@@ -22,6 +22,7 @@
     opacity: 0.48;
   }
 
+  /* dl-motion-allow: 16-20px control; focus shadow on a tiny surface. */
   .dl-checkbox__box {
     position: relative;
     display: inline-flex;

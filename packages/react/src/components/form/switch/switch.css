@@ -1,4 +1,5 @@
 @layer dl.components {
+  /* dl-motion-allow: control-sized surface; one focus-ring transition per focus. */
   .dl-switch {
     position: relative;
     display: inline-flex;

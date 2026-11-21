@@ -101,6 +101,21 @@ export function HarnessPage() {
 
       <Section title="键盘与选择">
         <div style={{ display: "grid", gap: 18 }}>
+          <div data-testid="tabs-height">
+            <Tabs defaultValue="small">
+              <TabsList aria-label="高度过渡示例">
+                <TabsTrigger value="small">短面板</TabsTrigger>
+                <TabsTrigger value="tall">高面板</TabsTrigger>
+              </TabsList>
+              <TabsContent value="small">
+                <div style={{ height: 24 }}>短面板内容</div>
+              </TabsContent>
+              <TabsContent value="tall">
+                <div style={{ height: 160 }}>高面板内容</div>
+              </TabsContent>
+            </Tabs>
+          </div>
+
           <Tabs value={tab} onValueChange={setTab}>
             <TabsList aria-label="示例页签">
               <TabsTrigger value="one">第一页</TabsTrigger>

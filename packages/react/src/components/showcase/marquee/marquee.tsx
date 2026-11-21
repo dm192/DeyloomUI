@@ -69,7 +69,7 @@ export function Marquee(props: MarqueeProps) {
 
   return (
     <div
-      className={cn("dl-marquee", className)}
+      className={cn("dl-marquee", "dl-scrollbar", className)}
       style={style}
       data-direction={direction}
       data-pause={pauseOnHover ? "hover" : "none"}

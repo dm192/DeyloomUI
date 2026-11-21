@@ -1,0 +1,131 @@
+@layer dl.components {
+  /* ---- toggle ------------------------------------------------------------ */
+  /* The same material recipe as Button: one transparent border slot that the
+     variant fills, colour-only transitions, and the shared press spring applied
+     in JS. Layout never animates. */
+  .dl-toggle {
+    --_bg: transparent;
+    --_fg: var(--dl-color-ink);
+    --_bd: transparent;
+
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--dl-space-2);
+    block-size: var(--dl-control-h-md);
+    padding-inline: var(--dl-space-5);
+    border: 1px solid var(--_bd);
+    border-radius: var(--dl-radius-sm);
+    background: var(--_bg);
+    color: var(--_fg);
+    font-family: var(--dl-font-sans);
+    font-size: var(--dl-text-md);
+    font-weight: var(--dl-weight-medium);
+    line-height: 1;
+    letter-spacing: -0.006em;
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    transition:
+      background-color var(--dl-dur-2) var(--dl-ease-out),
+      border-color var(--dl-dur-2) var(--dl-ease-out),
+      color var(--dl-dur-2) var(--dl-ease-out),
+      opacity var(--dl-dur-2) var(--dl-ease-out);
+  }
+
+  .dl-toggle:disabled {
+    opacity: 0.48;
+    cursor: not-allowed;
+  }
+
+  /* ---- variants ---------------------------------------------------------- */
+  .dl-toggle[data-variant="outline"] {
+    --_bd: var(--dl-color-border-strong);
+  }
+
+  .dl-toggle[data-variant="outline"]:not(:disabled):hover {
+    --_bg: var(--dl-color-surface-inset);
+  }
+
+  .dl-toggle[data-variant="outline"][data-state="on"] {
+    --_bd: var(--dl-color-accent);
+  }
+
+  .dl-toggle[data-variant="ghost"] {
+    --_fg: var(--dl-color-ink-muted);
+  }
+
+  .dl-toggle[data-variant="ghost"]:not(:disabled):hover {
+    --_bg: var(--dl-color-surface-inset);
+    --_fg: var(--dl-color-ink);
+  }
+
+  /* ---- pressed ----------------------------------------------------------- */
+  .dl-toggle[data-state="on"] {
+    --_bg: var(--dl-color-accent-soft);
+    --_fg: var(--dl-color-accent-soft-ink);
+  }
+
+  /* Declared after the hover rules so the pressed fill survives the pointer. */
+  .dl-toggle[data-state="on"]:not(:disabled):hover {
+    --_bg: var(--dl-color-accent-soft);
+    --_fg: var(--dl-color-accent-soft-ink);
+  }
+
+  /* ---- sizes ------------------------------------------------------------- */
+  .dl-toggle[data-size="sm"] {
+    block-size: var(--dl-control-h-sm);
+    padding-inline: var(--dl-space-4);
+    border-radius: var(--dl-radius-xs);
+    font-size: var(--dl-text-sm);
+  }
+
+  /* ---- group ------------------------------------------------------------- */
+  /* One sunken groove, the same material as TabsList. The 2px gap and the 2px
+     inset come from --dl-space-1, so the rhythm is a token, never a magic number. */
+  .dl-toggle-group {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--dl-space-1);
+    padding: var(--dl-space-1);
+    border: 1px solid var(--dl-color-border);
+    border-radius: var(--dl-radius-sm);
+    background: var(--dl-color-surface-sunken);
+    color: var(--dl-color-ink);
+    font-family: var(--dl-font-sans);
+    user-select: none;
+  }
+
+  .dl-toggle-group[data-orientation="vertical"] {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .dl-toggle-group[data-size="sm"] {
+    border-radius: var(--dl-radius-xs);
+  }
+
+  /* Group members are borderless: the groove supplies the outer edge, the
+     accent-soft fill supplies the pressed state. */
+  .dl-toggle-group .dl-toggle {
+    --_bd: transparent;
+    border-radius: var(--dl-radius-xs);
+  }
+
+  .dl-toggle-group .dl-toggle[data-state="on"] {
+    --_bg: var(--dl-color-accent-soft);
+    --_fg: var(--dl-color-accent-soft-ink);
+    --_bd: transparent;
+  }
+
+  .dl-toggle-group .dl-toggle[data-state="on"]:not(:disabled):hover {
+    --_bg: var(--dl-color-accent-soft);
+    --_fg: var(--dl-color-accent-soft-ink);
+  }
+
+  .dl-toggle-group[data-orientation="vertical"] .dl-toggle {
+    justify-content: flex-start;
+  }
+}

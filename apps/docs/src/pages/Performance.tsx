@@ -227,6 +227,18 @@ export function PerformancePage() {
               JS 与 CSS 的 gzip 体积写入预算表，构建后自动比较；超过就失败，不允许悄悄变大。
             </p>
           </div>
+          <div className="contract__item">
+            <h3 className="contract__title">阴影与例外须说明理由</h3>
+            <p className="contract__body">
+              过渡 box-shadow 只允许小控件，且必须在源码里写 dl-motion-allow 理由；Card 这类大面板只做 transform 与边框。
+            </p>
+          </div>
+          <div className="contract__item">
+            <h3 className="contract__title">高度与堆叠走单元素过渡</h3>
+            <p className="contract__body">
+              Tabs 容器高度用 WAAPI、Toast 堆叠用 FLIP，都只影响一个容器或一组 transform；任何情况下都不做列表级布局动画。
+            </p>
+          </div>
         </div>
       </Section>
     </>

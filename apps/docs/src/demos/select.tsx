@@ -95,6 +95,25 @@ export const selectDemo: DemoEntry = {
       ),
     },
     {
+      title: "长列表滚动",
+      description: "选项超出可用高度时出现滚动条与上下滚动按钮。",
+      layout: "stretch",
+      render: () => (
+        <Select>
+          <SelectTrigger aria-label="选择时区">
+            <SelectValue placeholder="选择时区" />
+          </SelectTrigger>
+          <SelectContent>
+            {Array.from({ length: 40 }, (_, index) => (
+              <SelectItem key={index} value={`zone-${index}`}>
+                UTC{index % 12 === 0 ? "" : `+${index}`} · 时区 {index + 1}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      ),
+    },
+    {
       title: "Field 内自动接线",
       layout: "stretch",
       render: () => (

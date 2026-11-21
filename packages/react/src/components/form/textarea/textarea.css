@@ -1,4 +1,5 @@
 @layer dl.components {
+  /* dl-motion-allow: one focus-ring transition on a static surface, never per frame. */
   .dl-textarea {
     display: block;
     inline-size: 100%;

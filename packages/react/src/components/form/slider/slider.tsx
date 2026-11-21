@@ -2,35 +2,38 @@ import * as React from "react";
 import { Slider as SliderPrimitive } from "radix-ui";
 import { cn } from "../../../lib/cn";
 import { useFieldContext } from "../field";
+import { computeSliderFill } from "./slider-math";
 
 export type SliderSize = "sm" | "md";
+export type SliderOrientation = "horizontal" | "vertical";
 
 export interface SliderProps
   extends Omit<
     React.ComponentProps<typeof SliderPrimitive.Root>,
-    "ref" | "value" | "defaultValue" | "onValueChange" | "children"
+    "ref" | "value" | "defaultValue" | "onValueChange" | "children" | "orientation"
   > {
   ref?: React.Ref<HTMLDivElement>;
   /** One value for a single thumb, two for a range. */
   value?: number[];
   defaultValue?: number[];
   onValueChange?: (value: number[]) => void;
-  /** Show the current value(s) as tabular digits to the right. */
+  /** Show the current value(s) as tabular digits. */
   showValue?: boolean;
   /** Formats the value readout. Defaults to the values joined by an en dash. */
   formatValue?: (value: number[]) => React.ReactNode;
   size?: SliderSize;
   /** Paints the invalid state and sets `aria-invalid` on every thumb. */
   invalid?: boolean;
-}
-
-function clampPercent(value: number): number {
-  return Math.min(Math.max(Number.isFinite(value) ? value : 0, 0), 100);
+  orientation?: SliderOrientation;
 }
 
 /**
- * Single or range slider on top of Radix. The fill is a full-width bar scaled
- * with `scaleX`, never an animated width; every thumb exposes a value readout.
+ * Single or range slider on top of Radix.
+ *
+ * Geometry contract: the track is exactly one thumb tall, and the thumb is a
+ * normal in-flow element inside Radix's positioning wrapper. That gives the
+ * wrapper a real size, which is what makes `translate(-50%, -50%)` actually
+ * centre and track the pointer. The fill is a scaleX/scaleY bar — never width.
  */
 export function Slider(props: SliderProps) {
   const {
@@ -53,6 +56,9 @@ export function Slider(props: SliderProps) {
     "aria-label": ariaLabel,
     "aria-labelledby": ariaLabelledBy,
     "aria-describedby": ariaDescribedBy,
+    onPointerDown,
+    onPointerUp,
+    onPointerCancel,
     ...rest
   } = props;
 
@@ -83,19 +89,27 @@ export function Slider(props: SliderProps) {
     const stop = () => setDragging(false);
     window.addEventListener("pointerup", stop);
     window.addEventListener("pointercancel", stop);
+    window.addEventListener("blur", stop);
     return () => {
       window.removeEventListener("pointerup", stop);
       window.removeEventListener("pointercancel", stop);
+      window.removeEventListener("blur", stop);
     };
   }, [dragging]);
 
-  const head = values[0] ?? min;
-  const tail = values[values.length - 1] ?? min;
-  const range = max - min || 1;
-  const headPercent = clampPercent(((head - min) / range) * 100);
-  const tailPercent = clampPercent(((tail - min) / range) * 100);
-  const coveredPercent = Math.max(tailPercent - headPercent, 0);
-  const fillScale = headPercent >= 100 ? 0 : coveredPercent / (100 - headPercent);
+  const fill = computeSliderFill(values, min, max);
+
+  const fillStyle: React.CSSProperties =
+    orientation === "vertical"
+      ? {
+          insetBlockEnd: `${fill.startPercent}%`,
+          blockSize: `calc(100% - ${fill.startPercent}%)`,
+          transform: `scaleY(${fill.scale})`,
+        }
+      : {
+          insetInlineStart: `${fill.startPercent}%`,
+          transform: `scaleX(${fill.scale})`,
+        };
 
   const readout = formatValue
     ? formatValue(values)
@@ -129,20 +143,16 @@ export function Slider(props: SliderProps) {
         step={step}
         orientation={orientation}
         disabled={isDisabled}
-        onPointerDown={() => setDragging(true)}
+        onPointerDown={(event) => {
+          if (!isDisabled) setDragging(true);
+          onPointerDown?.(event);
+        }}
+        onPointerUp={(event) => onPointerUp?.(event)}
+        onPointerCancel={(event) => onPointerCancel?.(event)}
         {...rest}
       >
         <SliderPrimitive.Track className="dl-slider__track">
-          {orientation === "horizontal" ? (
-            <span
-              className="dl-slider__fill"
-              aria-hidden="true"
-              style={{
-                insetInlineStart: `${headPercent}%`,
-                transform: `scaleX(${fillScale})`,
-              }}
-            />
-          ) : null}
+          <span className="dl-slider__fill" aria-hidden="true" style={fillStyle} />
           {values.map((_, index) => (
             <SliderPrimitive.Thumb
               // Thumb order is positional: index is the stable identity here.

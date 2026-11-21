@@ -14,7 +14,6 @@
     font-family: var(--dl-font-sans);
     transition:
       transform var(--dl-dur-2) var(--dl-ease-out),
-      box-shadow var(--dl-dur-3) var(--dl-ease-out),
       border-color var(--dl-dur-2) var(--dl-ease-out);
   }
 
@@ -26,17 +25,12 @@
     --_shadow: var(--dl-shadow-3);
   }
 
+  /* Hover feedback is transform + border only: repainting a large surface's
+     shadow every frame is exactly what the motion contract forbids. Elevation
+     stays where it was declared. */
   .dl-card[data-interactive="true"]:hover:not(:disabled) {
     border-color: var(--dl-color-border-strong);
     transform: translateY(calc(var(--dl-space-1) * -1));
-  }
-
-  .dl-card[data-interactive="true"][data-elevation="1"]:hover:not(:disabled) {
-    --_shadow: var(--dl-shadow-2);
-  }
-
-  .dl-card[data-interactive="true"][data-elevation="2"]:hover:not(:disabled) {
-    --_shadow: var(--dl-shadow-3);
   }
 
   .dl-card[data-interactive="true"] {

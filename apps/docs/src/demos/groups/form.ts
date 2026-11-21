@@ -8,6 +8,7 @@ import { selectDemo } from "../select";
 import { sliderDemo } from "../slider";
 import { switchDemo } from "../switch";
 import { textareaDemo } from "../textarea";
+import { toggleGroupDemo } from "../toggle-group";
 
 // Owned by the form-controls workstream. Append one entry per component.
 export const formDemos: ReturnType<typeof defineDemos> = defineDemos([
@@ -20,4 +21,5 @@ export const formDemos: ReturnType<typeof defineDemos> = defineDemos([
   sliderDemo,
   selectDemo,
   segmentedControlDemo,
+  ...toggleGroupDemo,
 ]);

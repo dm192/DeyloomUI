@@ -1,0 +1,40 @@
+@layer dl.components {
+  /* Same material recipe as Popover: raised surface, soft edge highlight and
+     the compound shadow. z-index matches the other floating layers. The panel
+     is 320px wide and keeps a --dl-space-9 (32px) gutter on small viewports. */
+  .dl-hover-card {
+    z-index: 70;
+    width: min(320px, calc(100vw - var(--dl-space-9)));
+    padding: var(--dl-space-4);
+    border: 1px solid var(--dl-color-border);
+    border-radius: var(--dl-radius-md);
+    background: var(--dl-color-surface-raised);
+    box-shadow: var(--dl-shadow-3), var(--dl-edge);
+    color: var(--dl-color-ink);
+    font-family: var(--dl-font-sans);
+    font-size: var(--dl-text-sm);
+    line-height: var(--dl-leading-base);
+    transform-origin: var(--radix-hover-card-content-transform-origin);
+  }
+
+  .dl-hover-card__arrow {
+    fill: var(--dl-color-surface-raised);
+  }
+
+  /* The default trigger stays inline with the surrounding copy: it reads as a
+     help affordance rather than a full-width control. */
+  .dl-hover-card__trigger {
+    display: inline;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--dl-color-accent-soft-ink);
+    font: inherit;
+    line-height: inherit;
+    text-align: inherit;
+    text-decoration: underline;
+    text-decoration-color: color-mix(in oklch, var(--dl-color-accent) 45%, transparent);
+    text-underline-offset: 3px;
+    cursor: help;
+  }
+}

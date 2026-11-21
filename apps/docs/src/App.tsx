@@ -134,7 +134,7 @@ function Sidebar(props: { route: Route }) {
   ];
 
   return (
-    <aside className="sidebar" aria-label="文档目录">
+    <aside className="sidebar dl-scrollbar" aria-label="文档目录">
       <nav>
         <div className="sidebar__group">
           <p className="sidebar__label">文档</p>

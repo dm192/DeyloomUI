@@ -1,0 +1,71 @@
+@layer dl.components {
+  /* ---- backdrop ----------------------------------------------------------- */
+  /* Only opacity is animated (by Motion). The blur is a static material value:
+     animating backdrop-filter throws the layer off the compositor. The z-index
+     sits above Dialog (50) so a confirmation always wins the stack. */
+  .dl-alert-dialog__backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 52;
+    background: var(--dl-color-overlay);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+  }
+
+  /* ---- panel -------------------------------------------------------------- */
+  .dl-alert-dialog__panel {
+    position: fixed;
+    inset: 0;
+    z-index: 53;
+    display: flex;
+    flex-direction: column;
+    gap: var(--dl-space-4);
+    width: min(calc(100vw - var(--dl-space-9)), 420px);
+    height: fit-content;
+    max-height: calc(100dvh - var(--dl-space-9));
+    margin: auto;
+    padding: var(--dl-space-8);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background: var(--dl-color-surface-raised);
+    border: 1px solid var(--dl-color-border);
+    border-radius: var(--dl-radius-lg);
+    box-shadow: var(--dl-shadow-3), var(--dl-edge);
+    color: var(--dl-color-ink);
+    font-family: var(--dl-font-sans);
+    font-size: var(--dl-text-md);
+    line-height: var(--dl-leading-base);
+  }
+
+  /* ---- content ------------------------------------------------------------ */
+  .dl-alert-dialog__title {
+    margin: 0;
+    color: var(--dl-color-ink);
+    font-size: var(--dl-text-xl);
+    font-weight: var(--dl-weight-semibold);
+    line-height: var(--dl-leading-tight);
+    letter-spacing: -0.01em;
+  }
+
+  .dl-alert-dialog__description {
+    margin: 0;
+    color: var(--dl-color-ink-muted);
+    font-size: var(--dl-text-sm);
+    line-height: var(--dl-leading-base);
+  }
+
+  .dl-alert-dialog__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: var(--dl-space-4);
+    margin-block-start: var(--dl-space-3);
+  }
+
+  /* The confirming action carries the decision, so it is never narrower than
+     the way out. Both buttons keep the shared Button press spring. */
+  .dl-alert-dialog__action,
+  .dl-alert-dialog__cancel {
+    min-width: calc(var(--dl-space-10) * 2);
+  }
+}

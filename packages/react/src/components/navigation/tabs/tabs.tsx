@@ -1,10 +1,10 @@
 import * as React from "react";
 import { Tabs as TabsPrimitive } from "radix-ui";
-import { AnimatePresence, m } from "motion/react";
-import type { Variants } from "motion/react";
+import { m } from "motion/react";
 import { cn } from "../../../lib/cn";
-import { distances, scales, springs, tweens } from "../../../motion/presets";
+import { distances, scales, springs } from "../../../motion/presets";
 import { useDeyloomReducedMotion } from "../../../hooks";
+import { useHeightTransition } from "../../../lib/use-layout-motion";
 
 type TabsOrientation = "horizontal" | "vertical";
 
@@ -97,8 +97,13 @@ function useTabIndicator(listRef: React.RefObject<HTMLDivElement | null>) {
 export type TabsProps = React.ComponentProps<typeof TabsPrimitive.Root>;
 
 /**
- * Tabs root. Owns the selection value so `TabsContent` can choreograph its own
- * enter/exit without Radix unmounting the panel mid-animation.
+ * Tabs root. Owns the selection value, the measured indicator state, and the
+ * height transition between panels.
+ *
+ * Panels never overlap in layout: only the active panel is in the flow, and the
+ * root animates from the previous panel height to the new one. That is the one
+ * container-level layout animation in the library (annotated at the call site)
+ * and it is skipped entirely under reduced motion or without WAAPI.
  */
 export function Tabs(props: TabsProps) {
   const {
@@ -108,6 +113,7 @@ export function Tabs(props: TabsProps) {
     orientation = "horizontal",
     className,
     children,
+    ref,
     ...rest
   } = props;
 
@@ -125,6 +131,17 @@ export function Tabs(props: TabsProps) {
     [isControlled, onValueChange],
   );
 
+  const rootRef = React.useRef<HTMLDivElement | null>(null);
+  const setRootRef = React.useCallback(
+    (node: HTMLDivElement | null) => {
+      rootRef.current = node;
+      assignRef(ref, node);
+    },
+    [ref],
+  );
+
+  useHeightTransition(rootRef, [value, orientation]);
+
   const contextValue = React.useMemo<TabsUiContextValue>(
     () => ({ value, orientation }),
     [value, orientation],
@@ -133,6 +150,7 @@ export function Tabs(props: TabsProps) {
   return (
     <TabsPrimitive.Root
       {...rest}
+      ref={setRootRef}
       value={value}
       orientation={orientation}
       onValueChange={handleValueChange}
@@ -226,12 +244,6 @@ export function TabsTrigger(props: TabsTriggerProps) {
   );
 }
 
-const contentVariants: Variants = {
-  initial: { opacity: 0, y: distances.sm },
-  animate: { opacity: 1, y: 0, transition: springs.soft },
-  exit: { opacity: 0, y: distances.xs, transition: tweens.exit },
-};
-
 export type TabsContentProps = Omit<
   React.ComponentPropsWithoutRef<typeof TabsPrimitive.Content>,
   "asChild" | "forceMount"
@@ -240,30 +252,27 @@ export type TabsContentProps = Omit<
 };
 
 /**
- * A panel. `AnimatePresence mode="wait"` keeps the outgoing panel mounted for
- * one short fade (140ms) instead of dropping a blank area on switch.
+ * A panel. Only the active one is mounted, so two panels can never occupy the
+ * flow at once (that used to double the container height for one exit tick).
+ * The incoming panel fades in; the container height is animated by `Tabs`.
  */
 export function TabsContent(props: TabsContentProps) {
   const { value, className, children, ref, ...rest } = props;
   const ui = React.useContext(TabsUiContext);
   const isActive = ui?.value === value;
 
+  if (!isActive) return null;
+
   return (
-    <AnimatePresence mode="wait" initial={false}>
-      {isActive ? (
-        <TabsPrimitive.Content key={value} value={value} forceMount asChild {...rest}>
-          <m.div
-            ref={ref}
-            className={cn("dl-tabs__content", "dl-focusable", className)}
-            variants={contentVariants}
-            initial="initial"
-            animate="animate"
-            exit="exit"
-          >
-            {children}
-          </m.div>
-        </TabsPrimitive.Content>
-      ) : null}
-    </AnimatePresence>
+    <TabsPrimitive.Content value={value} forceMount asChild {...rest}>
+      <m.div
+        ref={ref}
+        className={cn("dl-tabs__content", "dl-focusable", className)}
+        initial={{ opacity: 0, y: distances.xs }}
+        animate={{ opacity: 1, y: 0, transition: springs.soft }}
+      >
+        {children}
+      </m.div>
+    </TabsPrimitive.Content>
   );
 }

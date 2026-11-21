@@ -25,7 +25,7 @@ export const sliderDemo: DemoEntry = {
   slug: "slider",
   title: "Slider",
   group: "form",
-  summary: "单值或区间滑块。填充条用 scaleX 而不是宽度，拖拽时滑块放大到 1.12。",
+  summary: "单值或区间滑块。填充条用 scaleX/scaleY，滑块始终跟手并保持轨道居中。",
   examples: [
     {
       title: "单值",
@@ -42,6 +42,17 @@ export const sliderDemo: DemoEntry = {
       layout: "stretch",
       render: () => (
         <Slider aria-label="预算区间" defaultValue={[1200, 4800]} min={0} max={6000} step={100} showValue />
+      ),
+    },
+    {
+      title: "纵向",
+      description: "orientation=\"vertical\" 时填充沿高度方向生长，适合音量、缩放等场景。",
+      layout: "row",
+      render: () => (
+        <div style={{ display: "flex", alignItems: "flex-start", gap: 32 }}>
+          <Slider aria-label="纵向音量" orientation="vertical" defaultValue={[35]} showValue />
+          <Slider aria-label="纵向区间" orientation="vertical" defaultValue={[25, 70]} showValue />
+        </div>
       ),
     },
     {
@@ -69,6 +80,12 @@ export const sliderDemo: DemoEntry = {
     { name: "showValue", type: "boolean", default: "false", description: "右侧显示等宽数字读数。" },
     { name: "formatValue", type: "(value: number[]) => ReactNode", description: "自定义读数格式。" },
     { name: "size", type: '"sm" | "md"', default: '"md"', description: "轨道与滑块尺寸。" },
+    {
+      name: "orientation",
+      type: '"horizontal" | "vertical"',
+      default: '"horizontal"',
+      description: "纵向时高度 160px，可用 style 覆盖。",
+    },
   ],
   notes: ["aria-label 会应用到每个滑块；区间滑块会自动追加序号（如「预算区间 1 / 2」）。"],
 };

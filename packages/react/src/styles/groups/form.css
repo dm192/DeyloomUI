@@ -5,6 +5,7 @@
 @import "../../components/form/input/input.css";
 @import "../../components/form/radio-group/radio-group.css";
 @import "../../components/form/segmented-control/segmented-control.css";
+@import "../../components/form/toggle-group/toggle-group.css";
 @import "../../components/form/select/select.css";
 @import "../../components/form/slider/slider.css";
 @import "../../components/form/switch/switch.css";

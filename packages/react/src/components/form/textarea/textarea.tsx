@@ -99,7 +99,7 @@ export function Textarea(props: TextareaProps) {
         mergeRef(ref, node);
       }}
       id={controlId}
-      className={cn("dl-textarea", className)}
+      className={cn("dl-textarea", "dl-scrollbar", className)}
       style={style}
       rows={autoResize ? undefined : (rows ?? minRows)}
       value={value}

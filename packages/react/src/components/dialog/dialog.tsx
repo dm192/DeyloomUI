@@ -180,7 +180,7 @@ export function DialogContent(props: DialogContentProps) {
           </DialogPrimitive.Overlay>
           <DialogPrimitive.Content asChild forceMount {...contentProps}>
             <m.div
-              className={cn("dl-dialog__panel", "dl-focusable", className)}
+              className={cn("dl-dialog__panel", "dl-focusable", "dl-scrollbar", className)}
               data-size={size}
               variants={overlayPanel}
               initial="initial"

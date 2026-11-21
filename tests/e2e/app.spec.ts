@@ -1,6 +1,19 @@
 import { expect, test } from "@playwright/test";
 
-const ROUTES = ["/", "/#/components", "/#/components/button", "/#/foundations", "/#/motion", "/#/performance"];
+const ROUTES = [
+  "/",
+  "/#/components",
+  "/#/components/button",
+  "/#/components/slider",
+  "/#/components/scroll-area",
+  "/#/components/separator",
+  "/#/components/toggle-group",
+  "/#/components/alert-dialog",
+  "/#/components/hover-card",
+  "/#/foundations",
+  "/#/motion",
+  "/#/performance",
+];
 
 const IGNORED_CONSOLE = [/Reduced Motion/i, /Download the React DevTools/i];
 

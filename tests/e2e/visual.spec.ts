@@ -72,6 +72,28 @@ test.describe("visual captures", () => {
     await shot(page, "brand");
   });
 
+  test("new primitives", async ({ page }) => {
+    await open(page, "/#/components/scroll-area");
+    await page.locator(".dl-scroll-area").first().hover();
+    await page.waitForTimeout(250);
+    await shot(page, "scroll-area");
+
+    await open(page, "/#/components/toggle-group");
+    await shot(page, "toggle-group");
+
+    await open(page, "/#/components/separator");
+    await shot(page, "separator");
+
+    await open(page, "/#/components/alert-dialog");
+    const alertTrigger = page.getByRole("button", { name: /删除|确认|打开/ }).first();
+    if (await alertTrigger.count()) {
+      await alertTrigger.click();
+      await page.waitForTimeout(260);
+      await shot(page, "alert-dialog");
+      await page.keyboard.press("Escape");
+    }
+  });
+
   test("mobile home", async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await open(page, "/#/");

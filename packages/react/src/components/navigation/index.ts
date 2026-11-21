@@ -5,5 +5,7 @@ export * from "./badge";
 export * from "./card";
 export * from "./dropdown-menu";
 export * from "./popover";
+export * from "./scroll-area";
+export * from "./separator";
 export * from "./tabs";
 export * from "./tooltip";

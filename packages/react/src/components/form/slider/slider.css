@@ -2,12 +2,14 @@
   .dl-slider {
     --_track-size: var(--dl-space-3);
     --_thumb-size: 18px;
+    --_rail: var(--dl-color-surface-sunken);
+    --_fill: var(--dl-color-accent);
 
     display: flex;
     align-items: center;
     gap: var(--dl-space-4);
     inline-size: 100%;
-    min-width: 0;
+    min-inline-size: 0;
     font-family: var(--dl-font-sans);
     color: var(--dl-color-ink);
   }
@@ -17,55 +19,86 @@
     --_thumb-size: 14px;
   }
 
+  .dl-slider[data-invalid="true"] {
+    --_fill: var(--dl-color-danger);
+  }
+
+  /* Dim the interactive parts, not the value readout: disabled text still has
+     to meet contrast (and the readout is the only remaining information). */
+  .dl-slider[data-disabled="true"] .dl-slider__root {
+    opacity: 0.5;
+  }
+
+  /* ---- root / track ------------------------------------------------------ */
+  /* The root is exactly one thumb tall: Radix's positioning wrapper is an
+     absolutely positioned span whose size comes from its child, so the thumb
+     must stay in flow. A zero-sized wrapper kills the -50% centring transform. */
   .dl-slider__root {
     position: relative;
     display: flex;
     align-items: center;
     flex: 1 1 auto;
-    min-width: 0;
-    block-size: var(--dl-space-7);
+    min-inline-size: 0;
+    block-size: var(--_thumb-size);
     touch-action: none;
     user-select: none;
-    /* Radix positions the thumb with this inline transform; adding the vertical
-       half keeps the dot centred without a second inline style. */
-    --radix-slider-thumb-transform: translate(-50%, -50%);
   }
 
   .dl-slider__track {
     position: relative;
     display: block;
     flex: 1 1 0%;
+    block-size: var(--_thumb-size);
+    background: transparent;
+  }
+
+  /* The visible rail lives inside the thumb-tall hit area. */
+  .dl-slider__track::before {
+    position: absolute;
+    inset-inline: 0;
+    top: 50%;
     block-size: var(--_track-size);
     border-radius: var(--dl-radius-full);
-    background: var(--dl-color-surface-sunken);
+    background: var(--_rail);
+    translate: 0 -50%;
+    content: "";
+    pointer-events: none;
   }
 
   .dl-slider__fill {
     position: absolute;
-    inset-block: 0;
     inset-inline-end: 0;
+    top: 50%;
+    block-size: var(--_track-size);
     border-radius: var(--dl-radius-full);
-    background: var(--dl-color-accent);
+    background: var(--_fill);
     transform-origin: left center;
+    translate: 0 -50%;
     pointer-events: none;
   }
 
-  .dl-slider[data-invalid="true"] .dl-slider__fill {
-    background: var(--dl-color-danger);
+  .dl-slider__root[dir="rtl"] .dl-slider__fill {
+    transform-origin: right center;
   }
 
+  /* ---- thumb ------------------------------------------------------------- */
   .dl-slider__thumb {
-    position: absolute;
-    top: 50%;
+    position: relative;
     display: block;
     inline-size: var(--_thumb-size);
     block-size: var(--_thumb-size);
+    border-radius: var(--dl-radius-full);
     outline-offset: 3px;
     cursor: grab;
+    touch-action: none;
   }
 
   .dl-slider__thumb:active {
     cursor: grabbing;
+  }
+
+  .dl-slider[data-disabled="true"] .dl-slider__thumb {
+    cursor: not-allowed;
   }
 
   .dl-slider__thumb-dot {
@@ -95,18 +128,11 @@
     border-color: var(--dl-color-danger);
   }
 
-  .dl-slider[data-disabled="true"] {
-    opacity: 0.5;
-  }
-
-  .dl-slider[data-disabled="true"] .dl-slider__thumb {
-    cursor: not-allowed;
-  }
-
   .dl-slider[data-disabled="true"] .dl-slider__thumb-dot {
     transform: none;
   }
 
+  /* ---- value readout ----------------------------------------------------- */
   .dl-slider__value {
     flex: 0 0 auto;
     min-inline-size: 3em;
@@ -115,5 +141,53 @@
     font-variant-numeric: tabular-nums;
     line-height: var(--dl-leading-tight);
     text-align: end;
+    white-space: nowrap;
+  }
+
+  /* ---- vertical ---------------------------------------------------------- */
+  .dl-slider[data-orientation="vertical"] {
+    flex-direction: column;
+    align-items: center;
+    inline-size: max-content;
+    gap: var(--dl-space-3);
+  }
+
+  .dl-slider[data-orientation="vertical"] .dl-slider__root {
+    flex: 0 0 auto;
+    align-items: stretch;
+    justify-content: center;
+    block-size: 160px;
+    inline-size: var(--_thumb-size);
+  }
+
+  .dl-slider[data-orientation="vertical"] .dl-slider__track {
+    flex: 1 1 0%;
+    block-size: auto;
+    inline-size: var(--_thumb-size);
+  }
+
+  .dl-slider[data-orientation="vertical"] .dl-slider__track::before {
+    inset-block: 0;
+    inset-inline: auto;
+    top: auto;
+    left: 50%;
+    inline-size: var(--_track-size);
+    block-size: auto;
+    translate: -50% 0;
+  }
+
+  .dl-slider[data-orientation="vertical"] .dl-slider__fill {
+    inset-block-start: auto;
+    inset-inline: auto;
+    top: auto;
+    left: 50%;
+    inline-size: var(--_track-size);
+    translate: -50% 0;
+    transform-origin: center bottom;
+  }
+
+  .dl-slider[data-orientation="vertical"] .dl-slider__value {
+    min-inline-size: auto;
+    text-align: center;
   }
 }
